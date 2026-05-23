@@ -230,6 +230,23 @@ export default function BeanDetailPage() {
           </SectionCard>
         )}
 
+        <SectionCard title={t("brewDiagnosis")}>
+          <div className="grid gap-2">
+            <Link
+              href={`/brew-diagnosis/new?beanId=${bean.id}`}
+              className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg bg-coffee-dark px-4 text-sm font-semibold text-white"
+            >
+              {t("brewLogFromBean")}
+            </Link>
+            <Link
+              href={`/my-recipes?beanId=${bean.id}`}
+              className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg border border-coffee-border bg-coffee-card px-4 text-sm font-semibold text-coffee-primary"
+            >
+              {t("applySavedRecipeToBean")}
+            </Link>
+          </div>
+        </SectionCard>
+
         {bean.purchaseUrl && (
           <SectionCard title={t("purchaseUrl")}>
             <a

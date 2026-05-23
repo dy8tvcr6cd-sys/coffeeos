@@ -85,16 +85,16 @@ export default function BrewPage() {
           eyebrow={t("brewAnalysis")}
           action={
             <Link
-              href="/prescription"
+              href={`/brew-diagnosis/new?beanId=${bean.id}`}
               className="focus-ring inline-flex h-9 items-center justify-center rounded-lg bg-coffee-dark px-3 text-sm font-semibold text-white"
             >
-              {t("prescription")}
+              {t("newBrewLog")}
             </Link>
           }
         >
           <p className="inline-flex items-start gap-2 text-sm leading-6 text-coffee-secondary">
             <Brain className="mt-0.5 shrink-0 text-coffee-accent" size={16} />
-            {t("brewPrescriptionDescription")}
+            {t("brewDiagnosisDescription")}
           </p>
         </SectionCard>
         <BrewTimer recipe={recipe} />

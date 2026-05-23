@@ -115,7 +115,8 @@ export default function Home() {
         <SectionCard title={t("workflow")}>
           <div className="grid gap-2">
             {[
-              { href: "/prescription", label: t("getPrescription"), icon: Brain },
+              { href: "/brew-diagnosis", label: t("getPrescription"), icon: Brain },
+              { href: "/my-recipes", label: t("myRecipes"), icon: ClipboardList },
               { href: "/archive", label: t("reviewArchive"), icon: ClipboardList },
               { href: "/recommend", label: t("getRecommendations"), icon: ArrowRight },
               { href: "/cupping", label: t("joinCupping"), icon: CalendarDays }
