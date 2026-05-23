@@ -51,7 +51,11 @@ export const brewRecipes: BrewRecipe[] = [
   standardRecipe(
     "brew-momos-honduras-coe-la-pena",
     "momos-honduras-coe-la-pena",
-    text("공식 추출 레시피가 확인되지 않아 CoffeeOS 기본 필터 레시피를 제공합니다.", "Official brew recipe was not confirmed, so CoffeeOS provides a default filter recipe.", "公式抽出レシピは確認できないため、CoffeeOSの標準フィルターレシピを表示します。")
+    text(
+      "밝은 싱글오리진의 향과 단맛을 선명하게 여는 CoffeeOS 기본 필터 레시피입니다.",
+      "A CoffeeOS default filter recipe designed to open clarity and sweetness in bright single origins.",
+      "明るいシングルオリジンの香りと甘さをきれいに開くCoffeeOS標準フィルターレシピです。"
+    )
   ),
   standardRecipe(
     "brew-momos-busan-blend",
@@ -62,7 +66,11 @@ export const brewRecipes: BrewRecipe[] = [
     ...standardRecipe(
       "brew-fritz-old-dog",
       "fritz-old-dog",
-      text("공식 레시피가 확인되지 않아 묵직한 블렌드에 맞춘 기본 레시피를 제공합니다.", "Official recipe was not confirmed; this default profile supports a fuller blend.", "公式レシピは確認できないため、しっかりしたブレンド向けの標準レシピを表示します。")
+      text(
+        "묵직한 블렌드의 단맛과 질감을 안정적으로 살리는 기본 레시피입니다.",
+        "A default recipe for building stable sweetness and texture in a fuller blend.",
+        "しっかりしたブレンドの甘さと質感を安定して引き出す標準レシピです。"
+      )
     ),
     brewer: "Clever Dripper",
     grindSize: "Medium-coarse",
@@ -76,7 +84,11 @@ export const brewRecipes: BrewRecipe[] = [
   standardRecipe(
     "brew-center-ethiopia-guji-hambella-wate",
     "center-ethiopia-guji-hambella-wate",
-    text("공식 레시피 확인 전까지 사용하는 밝은 싱글오리진용 기본 레시피입니다.", "A bright single-origin default until an official recipe is confirmed.", "公式レシピ確認前に使う、明るいシングルオリジン向け標準レシピです。")
+    text(
+      "밝은 싱글오리진의 산미와 향을 또렷하게 정리하는 기본 레시피입니다.",
+      "A default recipe that keeps acidity and aromatics clear in a bright single origin.",
+      "明るいシングルオリジンの酸と香りをきれいに整える標準レシピです。"
+    )
   ),
   {
     id: "brew-coffee-libre-vertigo",
@@ -169,7 +181,11 @@ export const brewRecipes: BrewRecipe[] = [
   standardRecipe(
     "brew-bean-brothers-honduras-la-tina",
     "bean-brothers-honduras-la-tina",
-    text("상세 레시피 확인 전까지 사용하는 시즌 싱글오리진 기본 레시피입니다.", "A seasonal single-origin default until a detailed recipe is confirmed.", "詳細レシピ確認前に使う季節のシングルオリジン向け標準レシピです。")
+    text(
+      "시즌 싱글오리진의 산미와 단맛을 균형 있게 여는 기본 레시피입니다.",
+      "A default recipe for balancing acidity and sweetness in a seasonal single origin.",
+      "季節のシングルオリジンの酸と甘さをバランスよく引き出す標準レシピです。"
+    )
   ),
   standardRecipe(
     "brew-namusairo-pino-alto-geisha-natural",
@@ -197,7 +213,11 @@ export const brewRecipes: BrewRecipe[] = [
   standardRecipe(
     "brew-peru-la-primavera-geisha-washed",
     "peru-la-primavera-geisha-washed",
-    text("기존 프로토타입 원두용 기본 레시피입니다. 공식 KOOK 레시피는 확인 필요입니다.", "A default recipe for the retained prototype bean; official KOOK recipe needs review.", "既存プロトタイプ豆向けの標準レシピです。KOOK公式レシピは確認が必要です。")
+    text(
+      "워시드 게이샤의 플로럴한 향과 깨끗한 단맛을 중심에 둔 기본 필터 레시피입니다.",
+      "A default filter recipe centered on the floral aromatics and clean sweetness of a washed Geisha.",
+      "ウォッシュドゲイシャのフローラルな香りときれいな甘さを中心にした標準フィルターレシピです。"
+    )
   )
 ];
 

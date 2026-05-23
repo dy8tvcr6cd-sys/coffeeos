@@ -30,7 +30,7 @@ export default function BrewPage() {
   if (!bean || !recipe) {
     return (
       <>
-        <PageHeader title={t("needsReview")} backHref={`/beans/${params.id}`} />
+        <PageHeader title={t("pageNotFound")} backHref={`/beans/${params.id}`} />
         <div className="px-5">
           <Link
             href="/beans"
@@ -82,7 +82,7 @@ export default function BrewPage() {
         </SectionCard>
         <SectionCard
           title={t("brewPrescription")}
-          eyebrow="CoffeeOS AI"
+          eyebrow={t("brewAnalysis")}
           action={
             <Link
               href="/prescription"

@@ -2,10 +2,11 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Check, Plus } from "lucide-react";
+import { Check, Circle, Plus } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionCard } from "@/components/SectionCard";
 import { roasteries } from "@/data/roasteries";
+import { hasLocalizedValue } from "@/lib/customerDisplay";
 import { getLocalizedText, type LocalizedText } from "@/lib/i18n";
 import { addCustomBean, getCustomBeans } from "@/lib/storage";
 import { useLocale } from "@/lib/useLocale";
@@ -35,6 +36,7 @@ type BeanForm = {
   roastingIntent: LocalizedText;
   farmStory: LocalizedText;
   price: string;
+  purchaseUrl: string;
   brewer: string;
   grindSize: string;
   waterTemperature: string;
@@ -69,6 +71,7 @@ const initialForm: BeanForm = {
   roastingIntent: blankText,
   farmStory: blankText,
   price: "",
+  purchaseUrl: "",
   brewer: "Hario V60",
   grindSize: "Medium",
   waterTemperature: "92 C",
@@ -79,10 +82,19 @@ const initialForm: BeanForm = {
 };
 
 const localeLabels = {
-  ko: "Korean",
+  ko: "한국어",
   en: "English",
-  ja: "Japanese"
+  ja: "日本語"
 };
+
+const roastLevelOptions: { value: RoastLevel; label: LocalizedText }[] = [
+  { value: "light", label: { ko: "라이트", en: "Light", ja: "ライト" } },
+  { value: "light-medium", label: { ko: "라이트 미디엄", en: "Light medium", ja: "ライトミディアム" } },
+  { value: "medium", label: { ko: "미디엄", en: "Medium", ja: "ミディアム" } },
+  { value: "medium-dark", label: { ko: "미디엄 다크", en: "Medium dark", ja: "ミディアムダーク" } },
+  { value: "dark", label: { ko: "다크", en: "Dark", ja: "ダーク" } },
+  { value: "unknown", label: { ko: "로스터리 등록 예정", en: "To be registered", ja: "登録予定" } }
+];
 
 function withFallback(value: LocalizedText): LocalizedText {
   return {
@@ -107,9 +119,9 @@ function splitLocalizedNotes(value: LocalizedText) {
 
   return Array.from({ length }).map((_, index) => ({
     name: {
-      ko: ko[index] ?? ko[0] ?? "확인 필요",
-      en: en[index] ?? ko[index] ?? ko[0] ?? "Needs review",
-      ja: ja[index] ?? ko[index] ?? ko[0] ?? "確認が必要"
+      ko: ko[index] ?? ko[0] ?? "로스터리 등록 예정",
+      en: en[index] ?? ko[index] ?? ko[0] ?? "To be registered",
+      ja: ja[index] ?? ko[index] ?? ko[0] ?? "登録予定"
     },
     intensity: 3,
     color: ["#C8A45D", "#C85D5D", "#8A6F4D"][index % 3],
@@ -131,6 +143,44 @@ export default function AdminPage() {
   const missingRequired = useMemo(
     () => !form.name.ko.trim() || !form.country.ko.trim() || !form.farm.ko.trim() || !form.hotNotes.ko.trim(),
     [form]
+  );
+
+  const completionChecks = useMemo(
+    () => [
+      { label: t("checklistBeanName"), complete: Boolean(form.name.ko.trim()) },
+      { label: t("checklistRoastery"), complete: Boolean(form.roasteryId) },
+      { label: t("checklistCountry"), complete: Boolean(form.country.ko.trim()) },
+      { label: t("checklistProcess"), complete: Boolean(form.process.ko.trim()) },
+      {
+        label: t("checklistCupNotes"),
+        complete: Boolean(form.hotNotes.ko.trim() || form.warmNotes.ko.trim() || form.coldNotes.ko.trim())
+      },
+      { label: t("checklistRoastingIntent"), complete: Boolean(form.roastingIntent.ko.trim()) },
+      {
+        label: t("checklistBrewRecipe"),
+        complete: Boolean(
+          form.brewer.trim() &&
+            form.grindSize.trim() &&
+            form.waterTemperature.trim() &&
+            form.coffeeAmount.trim() &&
+            form.waterAmount.trim() &&
+            form.totalTimeSeconds.trim() &&
+            form.brewDescription.ko.trim()
+        )
+      },
+      { label: t("checklistPurchaseUrl"), complete: Boolean(form.purchaseUrl.trim()) },
+      {
+        label: t("checklistMultilingual"),
+        complete:
+          hasLocalizedValue(form.name) &&
+          hasLocalizedValue(form.country) &&
+          hasLocalizedValue(form.process) &&
+          hasLocalizedValue(form.hotNotes) &&
+          hasLocalizedValue(form.roastingIntent) &&
+          hasLocalizedValue(form.brewDescription)
+      }
+    ],
+    [form, t]
   );
 
   function updateTextField(field: keyof BeanForm, lang: keyof LocalizedText, value: string) {
@@ -199,7 +249,7 @@ export default function AdminPage() {
       roastingIntent: withFallback(form.roastingIntent),
       farmStory: withFallback(form.farmStory),
       recommendedBrewIds: [recipeId],
-      purchaseUrl: null,
+      purchaseUrl: form.purchaseUrl.trim() || null,
       sourceUrl: null,
       price,
       tags: splitLocalizedNotes(form.hotNotes).map((item) => item.name.en.toLowerCase()),
@@ -264,6 +314,29 @@ export default function AdminPage() {
       />
       <div className="space-y-5 px-5">
         <form onSubmit={submit} className="space-y-5">
+          <SectionCard title={t("internalCompletionChecklist")}>
+            <div className="grid gap-2">
+              {completionChecks.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex items-center justify-between gap-3 rounded-lg bg-coffee-background px-3 py-2"
+                >
+                  <span className="inline-flex min-w-0 items-center gap-2 text-sm font-semibold text-coffee-primary">
+                    {item.complete ? (
+                      <Check size={16} className="shrink-0 text-coffee-accent" />
+                    ) : (
+                      <Circle size={16} className="shrink-0 text-coffee-secondary" />
+                    )}
+                    {item.label}
+                  </span>
+                  <span className="shrink-0 text-xs font-semibold text-coffee-secondary">
+                    {item.complete ? t("complete") : t("incomplete")}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </SectionCard>
+
           <SectionCard title={t("beanIdentity")}>
             <div className="grid gap-3">
               <LocalizedField label={t("beanName")} value={form.name} onChange={(lang, value) => updateTextField("name", lang, value)} />
@@ -292,6 +365,7 @@ export default function AdminPage() {
               <Field label={t("moisture")} value={form.moisture} onChange={(value) => updateField("moisture", value)} />
               <Field label={t("density")} value={form.density} onChange={(value) => updateField("density", value)} />
               <Field label={t("currentPrice")} value={form.price} onChange={(value) => updateField("price", value)} />
+              <Field label={t("purchaseUrl")} value={form.purchaseUrl} onChange={(value) => updateField("purchaseUrl", value)} />
               <label className="block">
                 <span className="mb-2 block text-sm font-semibold text-coffee-primary">{t("roastLevel")}</span>
                 <select
@@ -299,9 +373,9 @@ export default function AdminPage() {
                   onChange={(event) => updateField("roastLevel", event.target.value)}
                   className="focus-ring h-12 w-full rounded-lg border border-coffee-border bg-coffee-background px-3 text-base text-coffee-primary"
                 >
-                  {["light", "light-medium", "medium", "medium-dark", "dark", "unknown"].map((level) => (
-                    <option key={level} value={level}>
-                      {level}
+                  {roastLevelOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {getLocalizedText(option.label, locale)}
                     </option>
                   ))}
                 </select>
@@ -311,12 +385,12 @@ export default function AdminPage() {
 
           <SectionCard title={t("cupNoteTimeline")}>
             <div className="grid gap-4">
-              <LocalizedField label="HOT notes" value={form.hotNotes} onChange={(lang, value) => updateTextField("hotNotes", lang, value)} />
-              <LocalizedTextArea label="HOT description" value={form.hotDescription} onChange={(lang, value) => updateTextField("hotDescription", lang, value)} />
-              <LocalizedField label="WARM notes" value={form.warmNotes} onChange={(lang, value) => updateTextField("warmNotes", lang, value)} />
-              <LocalizedTextArea label="WARM description" value={form.warmDescription} onChange={(lang, value) => updateTextField("warmDescription", lang, value)} />
-              <LocalizedField label="COLD notes" value={form.coldNotes} onChange={(lang, value) => updateTextField("coldNotes", lang, value)} />
-              <LocalizedTextArea label="COLD description" value={form.coldDescription} onChange={(lang, value) => updateTextField("coldDescription", lang, value)} />
+              <LocalizedField label="HOT 노트" value={form.hotNotes} onChange={(lang, value) => updateTextField("hotNotes", lang, value)} />
+              <LocalizedTextArea label="HOT 설명" value={form.hotDescription} onChange={(lang, value) => updateTextField("hotDescription", lang, value)} />
+              <LocalizedField label="WARM 노트" value={form.warmNotes} onChange={(lang, value) => updateTextField("warmNotes", lang, value)} />
+              <LocalizedTextArea label="WARM 설명" value={form.warmDescription} onChange={(lang, value) => updateTextField("warmDescription", lang, value)} />
+              <LocalizedField label="COLD 노트" value={form.coldNotes} onChange={(lang, value) => updateTextField("coldNotes", lang, value)} />
+              <LocalizedTextArea label="COLD 설명" value={form.coldDescription} onChange={(lang, value) => updateTextField("coldDescription", lang, value)} />
             </div>
           </SectionCard>
 

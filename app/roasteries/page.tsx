@@ -14,7 +14,7 @@ export default function RoasteriesPage() {
       <PageHeader
         title={t("roasteries")}
         eyebrow={t("partnerRoasteries")}
-        description={t("homeDescription")}
+        description={t("roasteryDiscoveryDescription")}
       />
       <div className="space-y-4 px-5">
         {roasteries.map((roastery) => (

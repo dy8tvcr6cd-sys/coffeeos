@@ -1,13 +1,12 @@
 # CoffeeOS
 
-CoffeeOS is a mobile-first coffee experience prototype that connects roastery discovery, bean information, brewing execution, sensory records, recommendations, and revisit flows.
+CoffeeOS는 로스터리 발견, 원두 정보, 브루잉 실행, 센서리 기록, 취향 추천, 재방문 흐름을 연결하는 모바일 우선 커피 경험 프로토타입입니다.
 
-## Local-only roastery logos
+## 로컬 전용 로스터리 로고
 
-Real roastery logos are not committed to this repository.
+실제 로스터리 로고 파일은 이 저장소에 커밋하지 않습니다.
 
-For private local prototype testing, place logo image files in `public/logos/` using the expected filenames.
-The app will display them locally.
-If a file is missing, the app will show a text initials placeholder.
+비공개 로컬 프로토타입 테스트용으로만 `public/logos/` 폴더에 약속된 파일명으로 로고 이미지를 넣어 사용할 수 있습니다.
+앱은 로컬에 있는 로고를 표시하고, 파일이 없으면 로스터리 이니셜 플레이스홀더를 보여줍니다.
 
-Before any public deployment, only use logos that are approved or provided by the roastery.
+공개 배포 전에는 반드시 로스터리가 승인하거나 직접 제공한 로고만 사용해야 합니다.

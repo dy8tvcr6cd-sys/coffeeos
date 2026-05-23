@@ -92,7 +92,7 @@ export function RoasteryLogo({ name, logoUrl, logoAlt, logoStatus = "placeholder
   return (
     <div
       className={`${sizeClass[size]} relative grid shrink-0 place-items-center overflow-hidden rounded-lg border border-coffee-border bg-coffee-card text-center font-bold text-coffee-primary shadow-sm`}
-      title={logoStatus === "local_test_only" ? "Local test logo asset" : label}
+      title={logoStatus === "local_test_only" ? "로컬 테스트 로고 자산" : label}
     >
       {showImage ? (
         <img

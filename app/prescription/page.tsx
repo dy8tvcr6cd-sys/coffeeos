@@ -92,7 +92,7 @@ export default function PrescriptionPage() {
     <>
       <PageHeader
         title={t("brewPrescription")}
-        eyebrow="CoffeeOS AI"
+        eyebrow={t("brewAnalysis")}
         description={t("brewPrescriptionDescription")}
         backHref="/"
       />
@@ -138,7 +138,7 @@ export default function PrescriptionPage() {
               max={10}
               step={1}
               suffix="/10"
-              hint="1 fine / 10 coarse"
+              hint="1 고움 / 10 굵음"
               onChange={(value) => updateNumber("grindSize", value)}
             />
             <RangeControl

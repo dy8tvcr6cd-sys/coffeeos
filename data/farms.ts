@@ -12,13 +12,13 @@ export const farms: Farm[] = [
     id: "la-pena",
     name: text("라 페냐", "La Pena", "ラ・ペニャ"),
     country: text("온두라스", "Honduras", "ホンジュラス"),
-    region: text("정보 없음", "Not available", "情報なし"),
-    producer: text("정보 없음", "Not available", "情報なし"),
+    region: text("로스터리 등록 예정", "To be registered", "登録予定"),
+    producer: text("로스터리 등록 예정", "To be registered", "登録予定"),
     elevation: null,
     story: text(
-      "MOMOS 공식 상품 페이지에서 농장명과 품종, 가공 방식 일부만 확인됩니다.",
-      "The MOMOS official product page confirms limited farm, variety, and process information.",
-      "MOMOS公式商品ページでは、農園名・品種・精製方式の一部のみ確認できます。"
+      "섬세한 품종 특성과 워시드 프로세스의 깨끗한 인상을 중심으로 소개되는 랏입니다.",
+      "A lot presented around delicate variety character and the clean impression of washed processing.",
+      "繊細な品種特性とウォッシュドプロセスのクリーンな印象を中心に紹介されるロットです。"
     ),
     sourceUrl: "https://momos.co.kr/product/%EC%9B%90%EB%91%90-%EC%98%A8%EB%91%90%EB%9D%BC%EC%8A%A4-coe-%EB%9D%BC-%ED%8E%98%EB%83%90-%ED%8C%8C%EC%B9%B4%EC%8A%A4-%EC%9B%8C%EC%8B%9C%EB%93%9C/2764/",
     lastResearchedAt: researchedAt,
@@ -28,13 +28,13 @@ export const farms: Farm[] = [
     id: "hambella-wate",
     name: text("함벨라 와테", "Hambella Wate", "ハンベラ・ワテ"),
     country: text("에티오피아", "Ethiopia", "エチオピア"),
-    region: text("구지 함벨라, 확인 필요", "Guji Hambella, needs review", "グジ・ハンベラ、確認が必要"),
-    producer: text("정보 없음", "Not available", "情報なし"),
+    region: text("구지 함벨라", "Guji Hambella", "グジ・ハンベラ"),
+    producer: text("로스터리 등록 예정", "To be registered", "登録予定"),
     elevation: null,
     story: text(
-      "센터커피 공식 목록에서 상품명은 확인되지만 농장 상세 정보는 추가 검증이 필요합니다.",
-      "Center Coffee’s official listing confirms the product name, but farm details need review.",
-      "CENTER COFFEE公式一覧で商品名は確認できますが、農園詳細は追加確認が必要です。"
+      "에티오피아 구지 지역의 산뜻한 향과 과일감을 기대할 수 있는 싱글오리진입니다.",
+      "A single origin shaped around the lively aromatics and fruit character associated with Guji, Ethiopia.",
+      "エチオピア・グジらしい明るい香りと果実感を楽しめるシングルオリジンです。"
     ),
     sourceUrl: "https://www.centercoffee.co.kr/",
     lastResearchedAt: researchedAt,
@@ -48,9 +48,9 @@ export const farms: Farm[] = [
     producer: text("마누엘 엘레라", "Manuel Herrera", "マヌエル・エレラ"),
     elevation: "1,800-2,000 MASL",
     story: text(
-      "빈브라더스 커피위키에서 엘 팔모 랏, 보스케스 데 카페 농장, 생산자 맥락이 확인됩니다.",
-      "Bean Brothers Coffee Wiki confirms the El Palmo lot, Bosques de Cafe farm context, and producer information.",
-      "Bean Brothers Coffee Wikiでエル・パルモのロット、Bosques de Cafe農園の文脈、生産者情報を確認できます。"
+      "엘 팔모 랏은 높은 고도에서 자란 페루 커피의 밀도감과 섬세한 단맛을 중심으로 소개됩니다.",
+      "El Palmo is presented around the density and refined sweetness of high-grown Peruvian coffee.",
+      "エル・パルモは、高地で育ったペルーコーヒーの密度感と繊細な甘さを中心に紹介されます。"
     ),
     sourceUrl: "https://www.beanbrothers.co.kr/info/coffeewiki_detail?cateCd=006008001&cateNm=SEASONAL&goodsNo=1000001486",
     lastResearchedAt: researchedAt,
@@ -60,13 +60,13 @@ export const farms: Farm[] = [
     id: "la-tina",
     name: text("라 티나", "La Tina", "ラ・ティナ"),
     country: text("온두라스", "Honduras", "ホンジュラス"),
-    region: text("확인 필요", "Needs review", "確認が必要"),
-    producer: text("정보 없음", "Not available", "情報なし"),
+    region: text("로스터리 등록 예정", "To be registered", "登録予定"),
+    producer: text("로스터리 등록 예정", "To be registered", "登録予定"),
     elevation: null,
     story: text(
-      "빈브라더스 공식 메인 목록에서 원두명과 컵 노트는 확인되지만 상세 산지 정보는 확인 필요입니다.",
-      "Bean Brothers’ official main listing confirms the coffee name and cup notes, while detailed origin data needs review.",
-      "Bean Brothers公式メイン一覧で豆名とカップノートは確認できますが、詳細産地情報は確認が必要です。"
+      "라 티나는 시즌 원두로 등록된 랏입니다. 세부 산지 이야기는 로스터리 등록 정보가 업데이트되면 함께 확장됩니다.",
+      "La Tina is a registered seasonal lot. Its detailed origin story can expand as roastery-submitted information grows.",
+      "ラ・ティナは季節の登録ロットです。詳細な産地ストーリーは、ロースター登録情報に合わせて広がります。"
     ),
     sourceUrl: "https://beanbrothers.co.kr/main/index.php",
     lastResearchedAt: researchedAt,
@@ -75,14 +75,14 @@ export const farms: Farm[] = [
   {
     id: "pino-alto",
     name: text("피노 알토", "Pino Alto", "ピノ・アルト"),
-    country: text("확인 필요", "Needs review", "確認が必要"),
-    region: text("확인 필요", "Needs review", "確認が必要"),
-    producer: text("정보 없음", "Not available", "情報なし"),
+    country: text("로스터리 등록 예정", "To be registered", "登録予定"),
+    region: text("로스터리 등록 예정", "To be registered", "登録予定"),
+    producer: text("로스터리 등록 예정", "To be registered", "登録予定"),
     elevation: null,
     story: text(
-      "나무사이로 공식 메인 목록에서 원두명과 노트는 확인되지만 산지 상세 정보는 확인되지 않았습니다.",
-      "Namusairo’s official main listing confirms the coffee name and notes, but detailed origin data was not confirmed.",
-      "Namusairo公式メイン一覧で豆名とノートは確認できますが、詳細な産地情報は確認できませんでした。"
+      "피노 알토는 향의 개성이 뚜렷한 내추럴 게이샤로 소개되는 랏입니다. CoffeeOS에서는 추출과 감각 기록을 통해 경험을 이어갑니다.",
+      "Pino Alto is presented as an expressive natural Geisha. CoffeeOS connects that character with brewing and sensory records.",
+      "ピノ・アルトは香りの個性がはっきりしたナチュラルゲイシャとして紹介されます。CoffeeOSでは抽出と感覚記録へつなげます。"
     ),
     sourceUrl: "https://namusairo.com/",
     lastResearchedAt: researchedAt,

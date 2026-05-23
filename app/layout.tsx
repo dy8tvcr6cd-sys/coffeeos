@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body>
         <div className="mx-auto min-h-screen w-full max-w-[480px] border-x border-coffee-border/70 bg-coffee-background">
           <main className="min-h-screen pb-28">{children}</main>
@@ -29,4 +29,3 @@ export default function RootLayout({
     </html>
   );
 }
-

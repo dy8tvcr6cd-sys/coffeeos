@@ -43,7 +43,7 @@ export default function BeansPage() {
     <>
       <PageHeader
         title={t("beans")}
-        eyebrow="Menu"
+        eyebrow={t("beanCatalog")}
         description={t("qrFlowDescription")}
         action={
           <Link

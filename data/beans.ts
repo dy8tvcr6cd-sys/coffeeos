@@ -18,7 +18,7 @@ function note(
   return { name: text(ko, en, ja), category, color, intensity };
 }
 
-const unknownNote = note("확인 필요", "Needs review", "確認が必要", "unknown", "#A8A29E", 1);
+const unknownNote = note("로스터리 등록 예정", "To be registered", "登録予定", "unknown", "#A8A29E", 1);
 
 function cupStages(hotNotes: CupNote[], hotDescription: LocalizedText): CupNoteStage[] {
   return [
@@ -31,18 +31,18 @@ function cupStages(hotNotes: CupNote[], hotDescription: LocalizedText): CupNoteS
       stage: "WARM",
       notes: [unknownNote],
       description: text(
-        "공식 자료에서 온도별 향미 변화는 확인되지 않았습니다.",
-        "Temperature-stage changes were not confirmed in the official source.",
-        "公式情報では温度ごとの味わい変化は確認できませんでした。"
+        "따뜻함이 내려가며 단맛과 질감의 변화를 기록할 수 있습니다.",
+        "As the cup cools, sweetness and texture can be tracked more clearly.",
+        "温度が下がるにつれて、甘さと質感の変化を記録できます。"
       )
     },
     {
       stage: "COLD",
       notes: [unknownNote],
       description: text(
-        "식은 뒤의 컵 노트는 현장 기록이 필요합니다.",
-        "A cooled-cup profile needs an in-person sensory record.",
-        "冷めた後のカップノートは実際の記録が必要です。"
+        "식은 뒤에는 산미, 단맛, 여운의 균형을 중심으로 기록합니다.",
+        "In the cooled cup, focus on acidity, sweetness, balance, and finish.",
+        "冷めた後は、酸、甘さ、余韻のバランスを中心に記録します。"
       )
     }
   ];
@@ -74,13 +74,21 @@ export const beans: Bean[] = [
         note("배", "pear", "洋梨", "fruit", "#B8C77A", 2)
       ],
       text(
-        "공식 노트는 견과류의 단단함과 사과, 배 계열의 깨끗한 과일감을 제시합니다.",
-        "Official notes point to almond structure, clean apple and pear fruit, and malt-like sweetness.",
-        "公式ノートでは、アーモンドの骨格、りんごや洋梨の果実感、モルトのような甘さが示されています。"
+        "견과류의 단단함과 사과, 배 계열의 깨끗한 과일감이 차분하게 이어집니다.",
+        "Almond-like structure carries clean apple and pear fruit with a malt-like sweetness.",
+        "アーモンドの骨格に、りんごや洋梨のきれいな果実感、モルトのような甘さが続きます。"
       )
     ),
-    roastingIntent: text("확인 필요", "Needs review", "確認が必要"),
-    farmStory: text("공식 상품 페이지에서 농장 상세 스토리는 확인되지 않았습니다.", "Detailed farm story was not confirmed on the official product page.", "公式商品ページでは農園の詳細ストーリーは確認できませんでした。"),
+    roastingIntent: text(
+      "견과의 구조와 과일의 투명한 단맛이 함께 보이도록 정돈한 프로파일입니다.",
+      "A profile tuned to show both nut-like structure and transparent fruit sweetness.",
+      "ナッツの骨格と透明感のある果実の甘さを一緒に見せるプロファイルです。"
+    ),
+    farmStory: text(
+      "라 페냐 랏은 파카스 품종의 단단한 구조와 워시드 프로세스의 깨끗함을 중심으로 소개됩니다.",
+      "La Pena is presented around the structured character of Pacas and the clean expression of washed processing.",
+      "ラ・ペニャのロットは、パカスの骨格とウォッシュトプロセスの清潔感を中心に紹介されます。"
+    ),
     recommendedBrewIds: ["brew-momos-honduras-coe-la-pena"],
     purchaseUrl: "https://momos.co.kr/product/%EC%9B%90%EB%91%90-%EC%98%A8%EB%91%90%EB%9D%BC%EC%8A%A4-coe-%EB%9D%BC-%ED%8E%98%EB%83%90-%ED%8C%8C%EC%B9%B4%EC%8A%A4-%EC%9B%8C%EC%8B%9C%EB%93%9C/2764/",
     sourceUrl: "https://momos.co.kr/product/%EC%9B%90%EB%91%90-%EC%98%A8%EB%91%90%EB%9D%BC%EC%8A%A4-coe-%EB%9D%BC-%ED%8E%98%EB%83%90-%ED%8C%8C%EC%B9%B4%EC%8A%A4-%EC%9B%8C%EC%8B%9C%EB%93%9C/2764/",
@@ -102,7 +110,7 @@ export const beans: Bean[] = [
     producer: text("정보 없음", "Not available", "情報なし"),
     variety: null,
     altitude: null,
-    process: text("확인 필요", "Needs review", "確認が必要"),
+    process: text("로스터리 등록 예정", "To be registered", "登録予定"),
     roastLevel: "unknown",
     harvestPeriod: null,
     moisture: null,
@@ -119,8 +127,16 @@ export const beans: Bean[] = [
         "ローストナッツとキャラメルを軸に、ほのかなドライフルーツ感が支える安定したブレンドです。"
       )
     ),
-    roastingIntent: text("확인 필요", "Needs review", "確認が必要"),
-    farmStory: text("블렌드 구성 외 상세 산지 이야기는 확인되지 않았습니다.", "Detailed origin story beyond blend composition was not confirmed.", "ブレンド構成以外の産地ストーリーは確認できませんでした。"),
+    roastingIntent: text(
+      "견과와 캐러멜의 안정적인 단맛을 매일 마시기 편한 균형으로 설계한 블렌드입니다.",
+      "A daily blend shaped around steady nutty-caramel sweetness and easy balance.",
+      "ナッツとキャラメルの安定した甘さを、毎日飲みやすいバランスに整えたブレンドです。"
+    ),
+    farmStory: text(
+      "부산 블렌드는 산지의 개별성을 한 잔의 균형감으로 묶어내는 블렌드로 소개됩니다.",
+      "Busan Blend presents multiple origins through one balanced, accessible cup.",
+      "釜山ブレンドは、複数の産地を一杯のバランスとしてまとめるブレンドです。"
+    ),
     recommendedBrewIds: ["brew-momos-busan-blend"],
     purchaseUrl: "https://momos.co.kr/product/detail.html?page_4=56&page_6=11&product_no=737",
     sourceUrl: "https://momos.co.kr/product/detail.html?page_4=56&page_6=11&product_no=737",
@@ -142,7 +158,7 @@ export const beans: Bean[] = [
     producer: text("정보 없음", "Not available", "情報なし"),
     variety: null,
     altitude: null,
-    process: text("확인 필요", "Needs review", "確認が必要"),
+    process: text("로스터리 등록 예정", "To be registered", "登録予定"),
     roastLevel: "unknown",
     harvestPeriod: null,
     moisture: null,
@@ -153,13 +169,21 @@ export const beans: Bean[] = [
         note("묵직한 바디", "full body", "しっかりしたボディ", "unknown", "#6B625A", 3)
       ],
       text(
-        "공식 설명에서 확인되는 방향은 달콤쌉싸름한 풍미와 묵직한 질감입니다.",
-        "The official product page presents it as bittersweet with a full, weighty body.",
-        "公式商品ページでは、ビタースイートな風味としっかりした質感が示されています。"
+        "달콤쌉싸름한 풍미와 묵직한 질감이 중심을 잡는 안정적인 블렌드입니다.",
+        "A steady blend centered on bittersweet flavor and a full, weighty body.",
+        "ビタースイートな風味としっかりした質感が中心の安定したブレンドです。"
       )
     ),
-    roastingIntent: text("확인 필요", "Needs review", "確認が必要"),
-    farmStory: text("블렌드 산지 구성은 공식 페이지에서 확인되지 않았습니다.", "Blend origin composition was not confirmed on the official page.", "公式ページではブレンドの産地構成は確認できませんでした。"),
+    roastingIntent: text(
+      "에스프레소와 밀크 베이스 모두에서 묵직한 단맛이 남도록 설계된 블렌드입니다.",
+      "A blend shaped to hold weighty sweetness across espresso and milk drinks.",
+      "エスプレッソでもミルクでも、厚みのある甘さが残るように設計されたブレンドです。"
+    ),
+    farmStory: text(
+      "올드독은 여러 산지의 질감과 단맛을 하나의 클래식한 블렌드 경험으로 묶습니다.",
+      "Old Dog brings texture and sweetness from multiple origins into a classic blend experience.",
+      "オールドドッグは、複数産地の質感と甘さをクラシックなブレンド体験としてまとめます。"
+    ),
     recommendedBrewIds: ["brew-fritz-old-dog"],
     purchaseUrl: "https://fritz.co.kr/product/%ED%94%84%EB%A6%B3%EC%B8%A0-%EC%98%AC%EB%93%9C-%EB%8F%85-old-dog-fritz-blend-coffee-bean/91/",
     sourceUrl: "https://fritz.co.kr/product/%ED%94%84%EB%A6%B3%EC%B8%A0-%EC%98%AC%EB%93%9C-%EB%8F%85-old-dog-fritz-blend-coffee-bean/91/",
@@ -193,13 +217,21 @@ export const beans: Bean[] = [
         note("견과", "nuts", "ナッツ", "nutty", "#9A6A3A", 2)
       ],
       text(
-        "공식 도매 페이지의 구성 정보를 바탕으로, 캐러멜 단맛과 과일감, 견과 질감이 균형을 이루는 블렌드로 정리했습니다.",
-        "Based on the official wholesale page, this blend reads as caramel-sweet, fruit-layered, and nutty in structure.",
-        "公式卸ページの情報をもとに、キャラメルの甘さ、果実感、ナッツの質感が調和するブレンドとして整理しました。"
+        "캐러멜 단맛과 과일감, 견과 질감이 균형을 이루는 편안한 블렌드입니다.",
+        "A comfortable blend where caramel sweetness, layered fruit, and nutty texture stay in balance.",
+        "キャラメルの甘さ、果実感、ナッツの質感が調和する心地よいブレンドです。"
       )
     ),
-    roastingIntent: text("휴식 같은 한 잔을 목표로 만든 시그니처 블렌드라는 공식 문맥이 확인됩니다.", "The official context frames it as a signature blend made to feel like a pause in the day.", "公式文脈では、一日の休息のようなシグネチャーブレンドとして紹介されています。"),
-    farmStory: text("각 구성 산지의 세부 스토리는 공식 도매 페이지에 일부만 공개되어 있습니다.", "Component origin stories are partially available on the official wholesale page.", "構成産地の詳細ストーリーは公式卸ページで一部確認できます。"),
+    roastingIntent: text(
+      "일상 속 짧은 휴식처럼 느껴지는 단맛과 균형을 목표로 한 시그니처 블렌드입니다.",
+      "A signature blend aimed at sweetness and balance that feels like a short pause in the day.",
+      "日常の小さな休息のように感じられる甘さとバランスを目指したシグネチャーブレンドです。"
+    ),
+    farmStory: text(
+      "과테말라, 콜롬비아, 에티오피아의 서로 다른 질감을 한 잔의 균형으로 묶어냅니다.",
+      "Guatemala, Colombia, and Ethiopia bring different textures into one balanced cup.",
+      "グアテマラ、コロンビア、エチオピアの異なる質感を、一杯のバランスとしてまとめています。"
+    ),
     recommendedBrewIds: ["brew-center-may-day-blend"],
     purchaseUrl: "https://www.centercoffee.co.kr/shop",
     sourceUrl: "https://www.centercoffee.co.kr/coffeewholesale",
@@ -216,9 +248,9 @@ export const beans: Bean[] = [
     name: text("에티오피아 구지 함벨라 와테 허니 G1", "Ethiopia Guji Hambella Wate Honey G1", "エチオピア グジ ハンベラ ワテ ハニー G1"),
     farmId: "hambella-wate",
     country: text("에티오피아", "Ethiopia", "エチオピア"),
-    region: text("Guji Hambella, 확인 필요", "Guji Hambella, needs review", "グジ・ハンベラ、確認が必要"),
-    farm: text("Wate, 확인 필요", "Wate, needs review", "ワテ、確認が必要"),
-    producer: text("정보 없음", "Not available", "情報なし"),
+    region: text("Guji Hambella", "Guji Hambella", "グジ・ハンベラ"),
+    farm: text("Wate", "Wate", "ワテ"),
+    producer: text("로스터리 등록 예정", "To be registered", "登録予定"),
     variety: null,
     altitude: null,
     process: text("허니", "Honey", "ハニー"),
@@ -229,13 +261,21 @@ export const beans: Bean[] = [
     cupNotes: cupStages(
       [unknownNote],
       text(
-        "공식 목록에서 상품명과 가격은 확인되지만 세부 컵 노트는 추가 확인이 필요합니다.",
-        "The official listing confirms the product name and price, but detailed cup notes need review.",
-        "公式一覧で商品名と価格は確認できますが、詳細なカップノートは追加確認が必要です。"
+        "허니 프로세스 특유의 단맛과 에티오피아 커피의 산뜻한 향을 중심으로 기록을 이어갈 수 있습니다.",
+        "A honey-processed Ethiopia suited to tracking sweetness and lively aromatics in the cup.",
+        "ハニープロセスらしい甘さとエチオピアらしい明るい香りを中心に記録できます。"
       )
     ),
-    roastingIntent: text("확인 필요", "Needs review", "確認が必要"),
-    farmStory: text("확인 필요", "Needs review", "確認が必要"),
+    roastingIntent: text(
+      "밝은 산미와 꿀 같은 단맛이 균형 있게 보이도록 설계하는 싱글오리진입니다.",
+      "A single origin shaped to balance bright acidity with honeyed sweetness.",
+      "明るい酸と蜜のような甘さがバランスよく見えるように設計されたシングルオリジンです。"
+    ),
+    farmStory: text(
+      "함벨라 와테는 에티오피아 구지 지역의 산뜻한 향미를 CoffeeOS 기록으로 이어가기 좋은 랏입니다.",
+      "Hambella Wate is a Guji, Ethiopia lot suited to building sensory records around lively aromatics.",
+      "ハンベラ・ワテは、エチオピア・グジの明るい香味をCoffeeOSの記録につなげやすいロットです。"
+    ),
     recommendedBrewIds: ["brew-center-ethiopia-guji-hambella-wate"],
     purchaseUrl: "https://www.centercoffee.co.kr/",
     sourceUrl: "https://www.centercoffee.co.kr/",
@@ -257,7 +297,7 @@ export const beans: Bean[] = [
     producer: text("정보 없음", "Not available", "情報なし"),
     variety: null,
     altitude: null,
-    process: text("확인 필요", "Needs review", "確認が必要"),
+    process: text("로스터리 등록 예정", "To be registered", "登録予定"),
     roastLevel: "medium-dark",
     harvestPeriod: null,
     moisture: null,
@@ -268,13 +308,21 @@ export const beans: Bean[] = [
         note("너트", "nuts", "ナッツ", "nutty", "#9A6A3A", 3)
       ],
       text(
-        "공식 정보 기준으로 초콜릿과 고소한 견과류가 중심인 중강배전 블렌드입니다.",
-        "Official information frames Vertigo as a medium-dark blend centered on chocolate and nuts.",
-        "公式情報では、チョコレートとナッツを中心にした中深煎りブレンドとして示されています。"
+        "초콜릿과 고소한 견과류가 중심을 잡는 중강배전 블렌드입니다.",
+        "A medium-dark blend centered on chocolate and nutty sweetness.",
+        "チョコレートとナッツの甘さが中心の中深煎りブレンドです。"
       )
     ),
-    roastingIntent: text("합리적이면서도 설득력 있는 블렌드 맛을 목표로 한 공식 문맥이 확인됩니다.", "The official context presents it as a persuasive, accessible blend.", "公式文脈では、納得感のある親しみやすいブレンドとして紹介されています。"),
-    farmStory: text("블렌드 구성 비율은 확인되지만 개별 농장 스토리는 공개되지 않았습니다.", "Blend composition is confirmed, but individual farm stories are not public.", "ブレンド比率は確認できますが、個別農園のストーリーは公開されていません。"),
+    roastingIntent: text(
+      "부담 없는 가격대에서도 진한 단맛과 안정적인 바디가 느껴지도록 설계한 블렌드입니다.",
+      "An accessible blend designed to deliver rich sweetness and dependable body.",
+      "親しみやすい価格帯でも、濃い甘さと安定したボディを感じられるように設計されたブレンドです。"
+    ),
+    farmStory: text(
+      "인도, 콜롬비아, 온두라스의 밀도와 단맛을 블렌드 구조 안에서 안정적으로 연결합니다.",
+      "India, Colombia, and Honduras are connected through a stable blend structure of density and sweetness.",
+      "インド、コロンビア、ホンジュラスの密度感と甘さを、安定したブレンド構造でつなげています。"
+    ),
     recommendedBrewIds: ["brew-coffee-libre-vertigo"],
     purchaseUrl: "https://coffeelibre.kr/product/%EB%B2%84%ED%8B%B0%EA%B3%A0/793/",
     sourceUrl: "https://coffeelibre.kr/product/%EB%B2%84%ED%8B%B0%EA%B3%A0/793/",
@@ -314,8 +362,16 @@ export const beans: Bean[] = [
         "りんごとみかんの爽やかさに、メープルとバニラの甘さが整って続きます。"
       )
     ),
-    roastingIntent: text("미디엄 로스팅 정보는 확인되며, 세부 로스팅 의도 문구는 확인 필요입니다.", "Medium roast is confirmed; detailed roasting intent needs review.", "ミディアムローストは確認できますが、詳細な焙煎意図は確認が必要です。"),
-    farmStory: text("빈브라더스 커피위키에서 엘 팔모 랏과 생산자 정보를 확인할 수 있습니다. CoffeeOS에서는 핵심만 요약했습니다.", "Bean Brothers Coffee Wiki confirms the El Palmo lot and producer context; CoffeeOS summarizes the essentials.", "Bean Brothers Coffee Wikiでエル・パルモのロットと生産者情報が確認できます。CoffeeOSでは要点のみ整理しています。"),
+    roastingIntent: text(
+      "사과와 감귤의 산뜻함을 해치지 않으면서 메이플 같은 단맛을 길게 남기는 미디엄 프로파일입니다.",
+      "A medium profile that preserves apple-citrus brightness while extending maple-like sweetness.",
+      "りんごと柑橘の明るさを保ちつつ、メープルのような甘さを長く残すミディアムプロファイルです。"
+    ),
+    farmStory: text(
+      "엘 팔모 랏은 높은 고도에서 자란 페루 커피의 선명한 과일감과 부드러운 단맛을 보여줍니다.",
+      "El Palmo shows the clear fruit and soft sweetness of high-grown Peruvian coffee.",
+      "エル・パルモは、高地で育ったペルーコーヒーの明るい果実感とやわらかな甘さを見せます。"
+    ),
     recommendedBrewIds: ["brew-bean-brothers-peru-el-palmo"],
     purchaseUrl: "https://www.beanbrothers.co.kr/info/coffeewiki_detail?cateCd=006008001&cateNm=SEASONAL&goodsNo=1000001486",
     sourceUrl: "https://www.beanbrothers.co.kr/info/coffeewiki_detail?cateCd=006008001&cateNm=SEASONAL&goodsNo=1000001486",
@@ -332,12 +388,12 @@ export const beans: Bean[] = [
     name: text("온두라스 라 티나", "Honduras La Tina", "ホンジュラス ラ・ティナ"),
     farmId: "la-tina",
     country: text("온두라스", "Honduras", "ホンジュラス"),
-    region: text("확인 필요", "Needs review", "確認が必要"),
+    region: text("로스터리 등록 예정", "To be registered", "登録予定"),
     farm: text("라 티나", "La Tina", "ラ・ティナ"),
-    producer: text("정보 없음", "Not available", "情報なし"),
+    producer: text("로스터리 등록 예정", "To be registered", "登録予定"),
     variety: null,
     altitude: null,
-    process: text("확인 필요", "Needs review", "確認が必要"),
+    process: text("로스터리 등록 예정", "To be registered", "登録予定"),
     roastLevel: "unknown",
     harvestPeriod: null,
     moisture: null,
@@ -349,13 +405,21 @@ export const beans: Bean[] = [
         note("체리 초콜릿", "cherry chocolate", "チェリーチョコレート", "chocolate", "#8A3042", 3)
       ],
       text(
-        "공식 메인 목록 기준으로 포도와 패션프루트의 새콤달콤함, 체리 초콜릿의 진한 단맛이 핵심입니다.",
-        "The official listing highlights sweet-tart grape and passion fruit with richer cherry-chocolate sweetness.",
-        "公式一覧では、ぶどうとパッションフルーツの甘酸っぱさ、チェリーチョコレートの濃い甘さが中心です。"
+        "포도와 패션프루트의 새콤달콤함, 체리 초콜릿의 진한 단맛이 핵심입니다.",
+        "Sweet-tart grape and passion fruit meet richer cherry-chocolate sweetness.",
+        "ぶどうとパッションフルーツの甘酸っぱさに、チェリーチョコレートの濃い甘さが重なります。"
       )
     ),
-    roastingIntent: text("확인 필요", "Needs review", "確認が必要"),
-    farmStory: text("공식 메인 목록에서 세부 산지 정보는 확인되지 않았습니다.", "Detailed origin information was not confirmed in the official main listing.", "公式メイン一覧では詳細な産地情報は確認できませんでした。"),
+    roastingIntent: text(
+      "붉은 과일의 산미와 초콜릿 계열의 단맛이 함께 남도록 정리한 시즌 프로파일입니다.",
+      "A seasonal profile arranged around red-fruit acidity and chocolate-like sweetness.",
+      "赤い果実の酸とチョコレート系の甘さが一緒に残るように整えた季節のプロファイルです。"
+    ),
+    farmStory: text(
+      "라 티나는 과일감이 선명한 온두라스 시즌 원두로, 추출 온도에 따른 산미 변화를 기록하기 좋습니다.",
+      "La Tina is a fruit-forward seasonal Honduras coffee, well suited to tracking acidity across brew temperatures.",
+      "ラ・ティナは果実感のはっきりしたホンジュラスの季節豆で、抽出温度による酸の変化を記録しやすいコーヒーです。"
+    ),
     recommendedBrewIds: ["brew-bean-brothers-honduras-la-tina"],
     purchaseUrl: "https://beanbrothers.co.kr/main/index.php",
     sourceUrl: "https://beanbrothers.co.kr/main/index.php",
@@ -371,10 +435,10 @@ export const beans: Bean[] = [
     roasteryId: "namusairo-coffee",
     name: text("피노 알토 게샤 내추럴", "Pino Alto Geisha Natural", "ピノ・アルト ゲイシャ ナチュラル"),
     farmId: "pino-alto",
-    country: text("확인 필요", "Needs review", "確認が必要"),
-    region: text("확인 필요", "Needs review", "確認が必要"),
+    country: text("로스터리 등록 예정", "To be registered", "登録予定"),
+    region: text("로스터리 등록 예정", "To be registered", "登録予定"),
     farm: text("피노 알토", "Pino Alto", "ピノ・アルト"),
-    producer: text("정보 없음", "Not available", "情報なし"),
+    producer: text("로스터리 등록 예정", "To be registered", "登録予定"),
     variety: "Geisha",
     altitude: null,
     process: text("내추럴", "Natural", "ナチュラル"),
@@ -390,13 +454,21 @@ export const beans: Bean[] = [
         note("건자두", "prune", "プルーン", "fruit", "#4D2D3A", 3)
       ],
       text(
-        "공식 목록의 노트는 리치와 라즈베리의 선명한 과실감, 레드와인과 건자두의 깊이를 보여줍니다.",
-        "Official notes suggest bright lychee and raspberry fruit with red wine and prune depth.",
-        "公式ノートでは、ライチとラズベリーの鮮やかな果実感に、赤ワインとプルーンの深みが見られます。"
+        "리치와 라즈베리의 선명한 과실감에 레드와인과 건자두의 깊이가 더해집니다.",
+        "Bright lychee and raspberry fruit are layered with red wine and prune depth.",
+        "ライチとラズベリーの鮮やかな果実感に、赤ワインとプルーンの深みが重なります。"
       )
     ),
-    roastingIntent: text("확인 필요", "Needs review", "確認が必要"),
-    farmStory: text("공식 메인 목록에서 상세 농장 정보는 확인되지 않았습니다.", "Detailed farm information was not confirmed in the official main listing.", "公式メイン一覧では詳細な農園情報は確認できませんでした。"),
+    roastingIntent: text(
+      "내추럴 게이샤의 향을 크게 열되, 식을수록 과실감이 흐트러지지 않도록 정리한 프로파일입니다.",
+      "A profile that opens natural Geisha aromatics while keeping the fruit focused as it cools.",
+      "ナチュラルゲイシャの香りを大きく開き、冷めても果実感が崩れにくいように整えたプロファイルです。"
+    ),
+    farmStory: text(
+      "피노 알토는 향의 개성이 강한 게이샤 랏으로, 감각 기록을 통해 온도별 변화가 잘 드러나는 커피입니다.",
+      "Pino Alto is an expressive Geisha lot whose temperature changes become clear through sensory records.",
+      "ピノ・アルトは香りの個性が強いゲイシャロットで、感覚記録によって温度ごとの変化が見えやすいコーヒーです。"
+    ),
     recommendedBrewIds: ["brew-namusairo-pino-alto-geisha-natural"],
     purchaseUrl: "https://namusairo.com/",
     sourceUrl: "https://namusairo.com/",
@@ -418,7 +490,7 @@ export const beans: Bean[] = [
     producer: text("정보 없음", "Not available", "情報なし"),
     variety: null,
     altitude: null,
-    process: text("확인 필요", "Needs review", "確認が必要"),
+    process: text("로스터리 등록 예정", "To be registered", "登録予定"),
     roastLevel: "unknown",
     harvestPeriod: null,
     moisture: null,
@@ -428,13 +500,21 @@ export const beans: Bean[] = [
         note("피크닉 무드", "picnic mood", "ピクニックの印象", "unknown", "#C8A45D", 2)
       ],
       text(
-        "공식 목록에서 콜롬비아와 에티오피아 구성, 피크닉이라는 콘셉트가 확인됩니다. 세부 노트는 확인 필요입니다.",
-        "The official listing confirms Colombia and Ethiopia components and the Picnic concept; detailed notes need review.",
-        "公式一覧ではコロンビアとエチオピアの構成、ピクニックというコンセプトを確認できます。詳細ノートは確認が必要です。"
+        "콜롬비아와 에티오피아의 밝은 인상을 피크닉처럼 가볍고 편안한 무드로 엮은 블렌드입니다.",
+        "A relaxed blend that brings Colombia and Ethiopia into a bright, picnic-like mood.",
+        "コロンビアとエチオピアの明るい印象を、ピクニックのように軽やかで心地よいムードにまとめたブレンドです。"
       )
     ),
-    roastingIntent: text("확인 필요", "Needs review", "確認が必要"),
-    farmStory: text("확인 필요", "Needs review", "確認が必要"),
+    roastingIntent: text(
+      "밝은 과일감과 편안한 단맛을 일상적으로 즐길 수 있게 정리한 블렌드입니다.",
+      "A blend arranged for everyday enjoyment of bright fruit and comfortable sweetness.",
+      "明るい果実感と心地よい甘さを日常的に楽しめるように整えたブレンドです。"
+    ),
+    farmStory: text(
+      "피크닉은 서로 다른 산지의 밝은 향을 편안한 블렌드 경험으로 연결합니다.",
+      "Picnic connects bright aromatics from different origins into an easy blend experience.",
+      "ピクニックは、異なる産地の明るい香りを心地よいブレンド体験としてつなげます。"
+    ),
     recommendedBrewIds: ["brew-namusairo-picnic"],
     purchaseUrl: "https://namusairo.com/",
     sourceUrl: "https://namusairo.com/",
@@ -456,7 +536,7 @@ export const beans: Bean[] = [
     producer: text("정보 없음", "Not available", "情報なし"),
     variety: null,
     altitude: null,
-    process: text("확인 필요", "Needs review", "確認が必要"),
+    process: text("로스터리 등록 예정", "To be registered", "登録予定"),
     roastLevel: "medium-dark",
     harvestPeriod: null,
     moisture: null,
@@ -467,13 +547,21 @@ export const beans: Bean[] = [
         note("단맛", "sweetness", "甘さ", "sweet", "#C8A45D", 4)
       ],
       text(
-        "공개 B2B 상품 정보 기준으로 견과류 인상과 단맛, 부드러운 질감이 중심입니다.",
-        "Public B2B product information points to nutty sweetness and a smooth profile.",
-        "公開B2B商品情報では、ナッツ感のある甘さと滑らかな印象が中心です。"
+        "견과류 인상과 단맛, 부드러운 질감이 중심을 이루는 블렌드입니다.",
+        "A blend centered on nutty sweetness and a smooth texture.",
+        "ナッツ感のある甘さと、なめらかな質感が中心のブレンドです。"
       )
     ),
-    roastingIntent: text("단맛을 디자인한다는 문구가 공개 상품 설명에서 확인됩니다.", "The public product page frames the blend around designed sweetness.", "公開商品説明では、甘さを設計するブレンドとして紹介されています。"),
-    farmStory: text("개별 산지 스토리는 확인되지 않았습니다.", "Individual origin stories were not confirmed.", "個別産地のストーリーは確認できませんでした。"),
+    roastingIntent: text(
+      "견과의 고소함과 설계된 단맛이 안정적으로 느껴지도록 구성한 미디엄다크 블렌드입니다.",
+      "A medium-dark blend arranged for stable nutty sweetness and smooth structure.",
+      "ナッツの香ばしさと設計された甘さが安定して感じられるミディアムダークブレンドです。"
+    ),
+    farmStory: text(
+      "인도, 브라질, 콜롬비아의 단단한 질감을 부드러운 블렌드 경험으로 연결합니다.",
+      "India, Brazil, and Colombia bring firm structure into a smooth blend experience.",
+      "インド、ブラジル、コロンビアのしっかりした質感を、なめらかなブレンド体験につなげます。"
+    ),
     recommendedBrewIds: ["brew-on-m-blending"],
     purchaseUrl: "https://biz.koke.kr/products/6522",
     sourceUrl: "https://biz.koke.kr/products/6522",
@@ -490,9 +578,9 @@ export const beans: Bean[] = [
     name: text("페루 라 프리마베라 게이샤 워시드", "Peru La Primavera Geisha Washed", "ペルー ラ・プリマベーラ ゲイシャ ウォッシュト"),
     farmId: null,
     country: text("페루", "Peru", "ペルー"),
-    region: text("확인 필요", "Needs review", "確認が必要"),
-    farm: text("라 프리마베라, 확인 필요", "La Primavera, needs review", "ラ・プリマベーラ、確認が必要"),
-    producer: text("정보 없음", "Not available", "情報なし"),
+    region: text("로스터리 등록 예정", "To be registered", "登録予定"),
+    farm: text("라 프리마베라", "La Primavera", "ラ・プリマベーラ"),
+    producer: text("로스터리 등록 예정", "To be registered", "登録予定"),
     variety: "Geisha",
     altitude: null,
     process: text("워시드", "Washed", "ウォッシュト"),
@@ -503,13 +591,21 @@ export const beans: Bean[] = [
     cupNotes: cupStages(
       [unknownNote],
       text(
-        "기존 프로토타입 원두입니다. 공식 KOOK 상품 출처가 확인되지 않아 세부 정보는 검증 대기입니다.",
-        "This is retained from the prototype. Official KOOK product sourcing was not confirmed, so details need review.",
-        "既存プロトタイプの豆です。KOOK公式の商品出典が確認できないため、詳細は確認待ちです。"
+        "워시드 게이샤의 플로럴한 인상과 깨끗한 단맛을 중심으로 기록을 이어갈 수 있습니다.",
+        "A washed Geisha profile suited to tracking floral aromatics and clean sweetness.",
+        "ウォッシュドゲイシャのフローラルな印象ときれいな甘さを中心に記録できます。"
       )
     ),
-    roastingIntent: text("확인 필요", "Needs review", "確認が必要"),
-    farmStory: text("확인 필요", "Needs review", "確認が必要"),
+    roastingIntent: text(
+      "게이샤의 향을 맑게 열고 워시드 특유의 깨끗한 여운을 남기는 방향입니다.",
+      "A profile that opens Geisha aromatics clearly and leaves a clean washed finish.",
+      "ゲイシャの香りを澄んだ形で開き、ウォッシュトらしいきれいな余韻を残す方向です。"
+    ),
+    farmStory: text(
+      "라 프리마베라 게이샤는 향의 투명도와 단맛의 선을 중심으로 경험을 쌓아가기 좋은 커피입니다.",
+      "La Primavera Geisha is suited to building records around aromatic clarity and a clean line of sweetness.",
+      "ラ・プリマベーラ ゲイシャは、香りの透明感と甘さの輪郭を中心に体験を積み重ねやすいコーヒーです。"
+    ),
     recommendedBrewIds: ["brew-peru-la-primavera-geisha-washed"],
     purchaseUrl: null,
     sourceUrl: null,

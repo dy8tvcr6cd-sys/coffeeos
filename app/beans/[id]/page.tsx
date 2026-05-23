@@ -11,6 +11,7 @@ import { RoasteryLogo } from "@/components/RoasteryLogo";
 import { SectionCard } from "@/components/SectionCard";
 import { getFarmById } from "@/data/farms";
 import { getRoasteryById } from "@/data/roasteries";
+import { customerText } from "@/lib/customerDisplay";
 import { formatPrice, formatTime } from "@/lib/format";
 import { addPurchaseIntent, getAllBeansClient, getBeanByIdClient, getRecipeByBeanIdClient } from "@/lib/storage";
 import type { Bean } from "@/types/bean";
@@ -44,7 +45,7 @@ export default function BeanDetailPage() {
   if (!bean) {
     return (
       <>
-        <PageHeader title={t("needsReview")} backHref="/beans" />
+        <PageHeader title={t("pageNotFound")} backHref="/beans" />
         <div className="px-5">
           <Link
             href="/beans"
@@ -59,14 +60,14 @@ export default function BeanDetailPage() {
 
   const details = [
     [t("roastery"), getLocalizedText(roastery?.name, locale) || "CoffeeOS"],
-    [t("country"), getLocalizedText(bean.country, locale)],
-    [t("region"), getLocalizedText(bean.region, locale)],
-    [t("farm"), getLocalizedText(bean.farm, locale)],
-    [t("producer"), getLocalizedText(bean.producer, locale)],
+    [t("country"), customerText(getLocalizedText(bean.country, locale), t("registeredSoon"))],
+    [t("region"), customerText(getLocalizedText(bean.region, locale), t("registeredSoon"))],
+    [t("farm"), customerText(getLocalizedText(bean.farm, locale), t("registeredSoon"))],
+    [t("producer"), customerText(getLocalizedText(bean.producer, locale), t("registeredSoon"))],
     [t("variety"), bean.variety],
     [t("altitude"), bean.altitude],
-    [t("process"), getLocalizedText(bean.process, locale)],
-    [t("roastLevel"), bean.roastLevel],
+    [t("process"), customerText(getLocalizedText(bean.process, locale), t("registeredSoon"))],
+    [t("roastLevel"), customerText(bean.roastLevel, t("registeredSoon"))],
     [t("harvest"), bean.harvestPeriod],
     [t("moisture"), bean.moisture],
     [t("density"), bean.density]
@@ -86,9 +87,9 @@ export default function BeanDetailPage() {
   const beanName = getLocalizedText(bean.name, locale);
   const roasteryName = getLocalizedText(roastery?.name, locale) || "CoffeeOS";
   const description = [
-    getLocalizedText(bean.country, locale),
-    getLocalizedText(bean.region, locale),
-    getLocalizedText(bean.process, locale)
+    customerText(getLocalizedText(bean.country, locale), ""),
+    customerText(getLocalizedText(bean.region, locale), ""),
+    customerText(getLocalizedText(bean.process, locale), "")
   ]
     .filter(Boolean)
     .join(" / ");
@@ -107,11 +108,11 @@ export default function BeanDetailPage() {
             <div>
               <p className="text-sm text-coffee-secondary">{t("currentPrice")}</p>
               <p className="mt-1 text-2xl font-semibold text-coffee-primary">
-                {bean.price ? formatPrice(bean.price) : t("infoMissing")}
+                {bean.price ? formatPrice(bean.price) : t("registeredSoon")}
               </p>
             </div>
             <div className="rounded-lg bg-coffee-background px-3 py-2 text-sm font-semibold text-coffee-secondary">
-              {bean.roastLevel}
+              {customerText(bean.roastLevel, t("registeredSoon"))}
             </div>
           </div>
           <div className="mt-4 grid grid-cols-3 gap-2">
@@ -166,7 +167,7 @@ export default function BeanDetailPage() {
               <div key={label} className="rounded-lg bg-coffee-background p-3">
                 <p className="text-xs font-semibold uppercase text-coffee-secondary">{label}</p>
                 <p className="mt-1 text-sm font-semibold leading-5 text-coffee-primary">
-                  {value || t("infoMissing")}
+                  {customerText(value, t("registeredSoon"))}
                 </p>
               </div>
             ))}
@@ -179,13 +180,19 @@ export default function BeanDetailPage() {
 
         <SectionCard title={t("roastingIntent")}>
           <p className="text-base leading-7 text-coffee-secondary">
-            {getLocalizedText(bean.roastingIntent, locale) || t("needsReview")}
+            {customerText(getLocalizedText(bean.roastingIntent, locale), t("registeredSoon"))}
           </p>
         </SectionCard>
 
-        <SectionCard title={t("farmStory")} eyebrow={getLocalizedText(farm?.producer ?? bean.producer, locale) || getLocalizedText(bean.farm, locale)}>
+        <SectionCard
+          title={t("farmStory")}
+          eyebrow={
+            customerText(getLocalizedText(farm?.producer ?? bean.producer, locale), "") ||
+            customerText(getLocalizedText(bean.farm, locale), "")
+          }
+        >
           <p className="text-base leading-7 text-coffee-secondary">
-            {getLocalizedText(farm?.story ?? bean.farmStory, locale) || t("needsReview")}
+            {customerText(getLocalizedText(farm?.story ?? bean.farmStory, locale), t("registeredSoon"))}
           </p>
         </SectionCard>
 
@@ -218,35 +225,21 @@ export default function BeanDetailPage() {
             </div>
             <p className="mt-4 inline-flex items-start gap-2 text-sm leading-6 text-coffee-secondary">
               <BookOpen className="mt-0.5 shrink-0" size={16} />
-              {getLocalizedText(recipe.intent, locale)}
+              {customerText(getLocalizedText(recipe.intent, locale), t("registeredSoon"))}
             </p>
           </SectionCard>
         )}
 
-        {(bean.sourceUrl || bean.purchaseUrl) && (
-          <SectionCard title={t("source")}>
-            <div className="grid gap-2">
-              {bean.sourceUrl && (
-                <a
-                  href={bean.sourceUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="focus-ring rounded-lg border border-coffee-border bg-coffee-background p-3 text-sm font-semibold text-coffee-primary"
-                >
-                  {t("source")}
-                </a>
-              )}
-              {bean.purchaseUrl && (
-                <a
-                  href={bean.purchaseUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="focus-ring rounded-lg bg-coffee-dark p-3 text-center text-sm font-semibold text-white"
-                >
-                  {t("buy")}
-                </a>
-              )}
-            </div>
+        {bean.purchaseUrl && (
+          <SectionCard title={t("purchaseUrl")}>
+            <a
+              href={bean.purchaseUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg bg-coffee-dark px-4 text-sm font-semibold text-white"
+            >
+              {t("buy")}
+            </a>
           </SectionCard>
         )}
 

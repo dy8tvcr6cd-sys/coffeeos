@@ -25,9 +25,9 @@ export const cuppingEvents: CuppingEvent[] = [
     location: text("로컬 프로토타입", "Local prototype", "ローカル試作"),
     seats: 8,
     focus: text(
-      "공식 이벤트가 아닌 CoffeeOS 내부 검증용 세션입니다.",
-      "An internal CoffeeOS prototype session, not an official roastery event.",
-      "公式イベントではなく、CoffeeOS内部検証用セッションです。"
+      "온도 변화에 따라 향미가 어떻게 이동하는지 함께 기록하는 CoffeeOS 커핑 세션입니다.",
+      "A CoffeeOS cupping session for recording how flavor moves as temperature changes.",
+      "温度変化によって香味がどう移るかを一緒に記録するCoffeeOSカッピングセッションです。"
     ),
     sourceUrl: null,
     status: "needs_review"

@@ -23,7 +23,7 @@ export default function SensoryPage() {
   if (!bean) {
     return (
       <>
-        <PageHeader title={t("needsReview")} backHref="/beans" />
+        <PageHeader title={t("pageNotFound")} backHref="/beans" />
         <div className="px-5">
           <Link
             href="/beans"

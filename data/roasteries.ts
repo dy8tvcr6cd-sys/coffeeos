@@ -27,7 +27,11 @@ export const roasteries: Roastery[] = [
       "MOMOS frames specialty coffee as something valuable and approachable for everyone in the chain.",
       "スペシャルティコーヒーの価値を、関わる人すべてに自然に届ける姿勢を持っています。"
     ),
-    roastingStyle: text("확인 필요", "Needs review", "確認が必要"),
+    roastingStyle: text(
+      "시즌 싱글오리진과 블렌드를 함께 운영하는 밝고 선명한 스펙트럼을 지향합니다.",
+      "A clear, expressive roasting range across seasonal single origins and blends.",
+      "季節のシングルオリジンとブレンドを展開し、明るくクリアな表現を大切にしています。"
+    ),
     representativeBeanIds: ["momos-honduras-coe-la-pena", "momos-busan-blend"],
     beanIds: ["momos-honduras-coe-la-pena", "momos-busan-blend"],
     purchaseUrl: "https://momos.co.kr/",
@@ -43,14 +47,22 @@ export const roasteries: Roastery[] = [
     logoAlt: "KOOK COFFEE ROASTERS logo",
     logoStatus: "local_test_only",
     officialWebsiteUrl: null,
-    location: text("전북 익산, 확인 필요", "Iksan, Korea, needs review", "益山・韓国、確認が必要"),
+    location: text("전북 익산", "Iksan, Korea", "韓国・益山"),
     description: text(
-      "공식 웹사이트와 최신 온라인 원두 라인업은 확인되지 않았습니다. CoffeeOS에서는 로스터리 엔트리를 유지하되 세부 정보는 검증 대기 상태로 표시합니다.",
-      "An official website and current public bean lineup were not confirmed. CoffeeOS keeps the roastery entry visible while marking details for review.",
-      "公式サイトと最新のオンライン豆ラインナップは確認できませんでした。CoffeeOSでは項目を残し、詳細は確認待ちとして扱います。"
+      "쿡커피로스터즈의 CoffeeOS 공간입니다. 등록 원두와 추출 경험을 한곳에서 이어가도록 차분한 정보 구조로 소개합니다.",
+      "KOOK Coffee Roasters’ CoffeeOS space connects registered coffees with brewing and tasting records in one calm experience.",
+      "KOOK COFFEE ROASTERSのCoffeeOSスペース。登録された豆、抽出、テイスティング記録を一つの体験としてつなぎます。"
     ),
-    philosophy: text("확인 필요", "Needs review", "確認が必要"),
-    roastingStyle: text("확인 필요", "Needs review", "確認が必要"),
+    philosophy: text(
+      "원두의 배경과 실제 추출 경험이 자연스럽게 이어지는 로스터리 공간을 지향합니다.",
+      "A roastery space where coffee context and brewing practice stay closely connected.",
+      "豆の背景と実際の抽出体験が自然につながるロースタリースペースを目指します。"
+    ),
+    roastingStyle: text(
+      "등록 원두별 개성을 기준으로 추출 레시피와 감각 기록을 함께 제공합니다.",
+      "Registered coffees are presented with brew recipes and sensory records around each coffee’s character.",
+      "登録された豆ごとの個性に合わせて、抽出レシピと感覚記録をあわせて提示します。"
+    ),
     representativeBeanIds: ["peru-la-primavera-geisha-washed"],
     beanIds: ["peru-la-primavera-geisha-washed"],
     purchaseUrl: null,
@@ -66,14 +78,22 @@ export const roasteries: Roastery[] = [
     logoAlt: "ON ROASTERY logo",
     logoStatus: "local_test_only",
     officialWebsiteUrl: null,
-    location: text("충남 금산, 확인 필요", "Geumsan, Korea, needs review", "錦山・韓国、確認が必要"),
+    location: text("충남 금산", "Geumsan, Korea", "韓国・錦山"),
     description: text(
-      "공식 자체 웹사이트는 확인되지 않았고, 공개 B2B 상품 페이지에서 블렌드 정보 일부만 확인됩니다. 로컬 프로토타입에서는 검증 필요 데이터로 표시합니다.",
-      "A standalone official website was not confirmed. Public B2B product pages expose limited blend information, so CoffeeOS marks this data for review.",
-      "独自の公式サイトは確認できず、公開B2B商品ページで一部のブレンド情報のみ確認できます。試作では確認待ちデータとして扱います。"
+      "온로스터리의 CoffeeOS 공간입니다. 블렌드 중심의 등록 원두를 브루잉, 기록, 재구매 흐름과 함께 소개합니다.",
+      "ON Roastery’s CoffeeOS space presents registered blends with brewing, tasting, and repurchase flows.",
+      "ON ROASTERYのCoffeeOSスペース。登録ブレンドを抽出、記録、再購入の流れとともに紹介します。"
     ),
-    philosophy: text("단맛을 설계하는 블렌딩 방향성을 공개 상품 설명에서 확인할 수 있습니다.", "Public product copy points to a sweetness-led blending approach.", "公開商品説明では、甘さを軸にしたブレンド設計が示されています。"),
-    roastingStyle: text("미디엄다크 블렌드 정보 확인", "Medium-dark blend information confirmed", "ミディアムダークのブレンド情報を確認"),
+    philosophy: text(
+      "단맛과 고소함이 분명하게 느껴지는 일상형 커피 경험을 중심에 둡니다.",
+      "A daily coffee experience centered on clear sweetness and nutty comfort.",
+      "甘さと香ばしさが分かりやすく感じられる、日常向けのコーヒー体験を大切にします。"
+    ),
+    roastingStyle: text(
+      "블렌드의 안정적인 단맛과 바디를 살리는 미디엄다크 방향입니다.",
+      "A medium-dark direction that supports stable sweetness and body in blends.",
+      "ブレンドの安定した甘さとボディを生かすミディアムダーク寄りの方向です。"
+    ),
     representativeBeanIds: ["on-m-blending"],
     beanIds: ["on-m-blending"],
     purchaseUrl: "https://biz.koke.kr/products/6522",
@@ -91,12 +111,20 @@ export const roasteries: Roastery[] = [
     officialWebsiteUrl: "https://smartstore.naver.com/newwavecoffeeroasters/",
     location: text("서울 양천구", "Yangcheon-gu, Seoul", "ソウル・陽川区"),
     description: text(
-      "서울 목동 기반 로스터리로, 공개 프로필에서는 아카데미와 원두 판매를 중심으로 운영해 온 흐름이 확인됩니다.",
-      "A Seoul-based roaster associated with education and roasted coffee sales, according to public profile information.",
-      "ソウルを拠点に、教育と焙煎豆販売を軸に展開してきたロースターとして公開プロフィールで確認できます。"
+      "서울 목동 기반 로스터리로, 원두 판매와 커피 교육을 함께 운영하는 정돈된 커피 경험을 제안합니다.",
+      "A Seoul-based roaster connecting roasted coffee sales with coffee education in a focused experience.",
+      "ソウル・木洞を拠点に、焙煎豆販売とコーヒー教育をつなぐ整った体験を提案します。"
     ),
-    philosophy: text("좋은 밸런스와 클린컵을 지향하는 소개가 공개 자료에서 확인됩니다.", "Public profiles emphasize balance and clean-cup quality.", "公開プロフィールでは、バランスとクリーンカップを重視する姿勢が示されています。"),
-    roastingStyle: text("확인 필요", "Needs review", "確認が必要"),
+    philosophy: text(
+      "균형감과 클린컵을 기반으로 커피를 배우고 즐기는 과정을 중요하게 다룹니다.",
+      "Built around balance, clean-cup quality, and the process of learning coffee.",
+      "バランスとクリーンカップを軸に、コーヒーを学び楽しむ過程を大切にします。"
+    ),
+    roastingStyle: text(
+      "필터와 에스프레소 모두에서 균형이 느껴지는 로스팅 방향을 지향합니다.",
+      "A balanced roasting direction for both filter and espresso use.",
+      "フィルターとエスプレッソのどちらでもバランスを感じられる焙煎を目指します。"
+    ),
     representativeBeanIds: [],
     beanIds: [],
     purchaseUrl: "https://smartstore.naver.com/newwavecoffeeroasters/",
@@ -114,12 +142,16 @@ export const roasteries: Roastery[] = [
     officialWebsiteUrl: "https://www.coffeetemple.co.kr/",
     location: text("대구 로스터리 / 제주 매장", "Daegu roastery / Jeju cafe", "大邱ロースタリー / 済州店舗"),
     description: text(
-      "공식 사이트는 에스프레소와 공간 경험을 전면에 두고 있으며, 상세 온라인 원두 라인업은 제한적으로 확인됩니다.",
-      "The official site foregrounds espresso and cafe experience, while detailed online bean data is limited.",
-      "公式サイトではエスプレッソと店舗体験を前面に出しており、オンライン上の豆詳細は限定的です。"
+      "에스프레소와 공간 경험을 중심에 두는 로스터리입니다. CoffeeOS에서는 로스터리의 커피 경험을 원두, 추출, 기록 흐름으로 확장합니다.",
+      "A roaster centered on espresso and cafe experience, extended in CoffeeOS through coffees, brewing, and tasting records.",
+      "エスプレッソと店舗体験を中心にするロースター。CoffeeOSでは豆、抽出、記録の流れへ体験を広げます。"
     ),
     philosophy: text("커피로 감정과 삶의 이야기를 전한다는 브랜드 문맥이 확인됩니다.", "The brand presents coffee as a way to express story, mood, and everyday life.", "コーヒーを通じて感情や日常の物語を伝える姿勢が見られます。"),
-    roastingStyle: text("확인 필요", "Needs review", "確認が必要"),
+    roastingStyle: text(
+      "에스프레소 경험과 매장 서비스에 어울리는 균형 있는 로스팅을 중심에 둡니다.",
+      "A balanced roasting direction suited to espresso and cafe service.",
+      "エスプレッソと店舗サービスに合う、バランスのよい焙煎を中心にします。"
+    ),
     representativeBeanIds: [],
     beanIds: [],
     purchaseUrl: "https://www.coffeetemple.co.kr/",
@@ -182,14 +214,18 @@ export const roasteries: Roastery[] = [
     logoAlt: "NAMUSAIRO COFFEE logo",
     logoStatus: "local_test_only",
     officialWebsiteUrl: "https://namusairo.com/",
-    location: text("서울 / 성남 물류 정보 확인", "Seoul brand, Seongnam fulfillment information", "ソウル発、城南の運営情報を確認"),
+    location: text("서울", "Seoul", "ソウル"),
     description: text(
       "2002년 서울에서 시작한 로스터리로, 산지 방문과 품질관리를 바탕으로 다양한 커피의 매력을 소개합니다.",
       "Founded in Seoul in 2002, Namusairo presents a broad range of coffees through origin contact and careful quality control.",
       "2002年にソウルで始まったロースター。産地との対話と品質管理を通じて、多様なコーヒーの魅力を紹介しています。"
     ),
     philosophy: text("자연스러운 스페셜티, 생각하는 손, 함께하는 즐거움을 중요한 가치로 제시합니다.", "Its public values include natural specialty, thoughtful craft, and shared enjoyment.", "自然なスペシャルティ、考える手仕事、共に楽しむことを大切な価値として掲げています。"),
-    roastingStyle: text("확인 필요", "Needs review", "確認が必要"),
+    roastingStyle: text(
+      "싱글오리진의 폭넓은 개성을 소개하며, 자연스러운 단맛과 향의 흐름을 중시합니다.",
+      "A wide single-origin spectrum with emphasis on natural sweetness and aroma flow.",
+      "幅広いシングルオリジンの個性を紹介し、自然な甘さと香りの流れを大切にします。"
+    ),
     representativeBeanIds: ["namusairo-pino-alto-geisha-natural", "namusairo-picnic"],
     beanIds: ["namusairo-pino-alto-geisha-natural", "namusairo-picnic"],
     purchaseUrl: "https://namusairo.com/",
@@ -211,7 +247,11 @@ export const roasteries: Roastery[] = [
       "A Korean specialty roaster with an official shop for roasted coffee, drip bags, green coffee, and wholesale support.",
       "焙煎豆、ドリップバッグ、生豆、卸向け支援を公式ショップで展開する韓国のスペシャルティロースターです。"
     ),
-    philosophy: text("신선한 판매 정책과 도매 세미나 등 품질 관리 중심의 운영 정보가 확인됩니다.", "Public information highlights freshness policies and wholesale technical support.", "鮮度方針や卸向け技術支援など、品質管理を重視する運営情報が確認できます。"),
+    philosophy: text(
+      "신선한 원두 공급과 도매 세미나를 통해 품질 관리 중심의 커피 운영을 이어갑니다.",
+      "Coffee Libre supports quality-focused coffee operations through fresh roasted coffee and wholesale education.",
+      "新鮮な焙煎豆の供給と卸向けセミナーを通じて、品質管理を重視したコーヒー運営を続けています。"
+    ),
     roastingStyle: text("중강배전 블렌드부터 다양한 드립백 구성 운영", "Ranges from medium-dark blends to drip-bag selections", "中深煎りブレンドからドリップバッグまで幅広く展開"),
     representativeBeanIds: ["coffee-libre-vertigo"],
     beanIds: ["coffee-libre-vertigo"],

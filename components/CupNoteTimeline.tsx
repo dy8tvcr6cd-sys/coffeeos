@@ -1,4 +1,5 @@
 import type { CupNoteStage } from "@/types/bean";
+import { customerText } from "@/lib/customerDisplay";
 import { getLocalizedText } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
 
@@ -7,7 +8,7 @@ type CupNoteTimelineProps = {
 };
 
 export function CupNoteTimeline({ moments }: CupNoteTimelineProps) {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
 
   return (
     <div className="space-y-4">
@@ -24,7 +25,7 @@ export function CupNoteTimeline({ moments }: CupNoteTimelineProps) {
           <div className="rounded-lg border border-coffee-border bg-coffee-background p-4">
             <h3 className="text-base font-semibold text-coffee-primary">{moment.stage}</h3>
             <p className="mt-1 text-sm leading-6 text-coffee-secondary">
-              {getLocalizedText(moment.description, locale)}
+              {customerText(getLocalizedText(moment.description, locale), t("registeredSoon"))}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {moment.notes.map((note) => (
@@ -33,7 +34,7 @@ export function CupNoteTimeline({ moments }: CupNoteTimelineProps) {
                   className="rounded-lg border px-3 py-2 text-sm font-medium text-coffee-secondary"
                   style={{ borderColor: note.color, backgroundColor: `${note.color}1A` }}
                 >
-                  {getLocalizedText(note.name, locale)}
+                  {customerText(getLocalizedText(note.name, locale), t("registeredSoon"))}
                 </span>
               ))}
             </div>

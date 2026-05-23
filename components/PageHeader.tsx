@@ -18,7 +18,7 @@ export function PageHeader({ title, eyebrow, description, backHref, action }: Pa
         {backHref ? (
           <Link
             href={backHref}
-            aria-label="Back"
+            aria-label="뒤로"
             className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-lg border border-coffee-border bg-coffee-card text-coffee-primary"
           >
             <ArrowLeft size={18} />

@@ -9,7 +9,7 @@ import { formatPrice } from "@/lib/format";
 import { getLocalizedText } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
 import { RoasteryLogo } from "@/components/RoasteryLogo";
-import { translations } from "@/data/translations";
+import { customerText } from "@/lib/customerDisplay";
 
 type BeanCardProps = {
   bean: Bean;
@@ -25,7 +25,7 @@ export function BeanCard({ bean, compact = false }: BeanCardProps) {
   const country = getLocalizedText(bean.country, locale);
   const region = getLocalizedText(bean.region, locale);
   const process = getLocalizedText(bean.process, locale);
-  const missing = getLocalizedText(translations.infoMissing, locale);
+  const missing = t("registeredSoon");
 
   return (
     <motion.article
@@ -58,18 +58,18 @@ export function BeanCard({ bean, compact = false }: BeanCardProps) {
         <div className="mt-4 flex items-center gap-2 text-sm text-coffee-secondary">
           <MapPin size={15} />
           <span>
-            {[country, region].filter(Boolean).join(", ") || missing}
+            {[customerText(country, ""), customerText(region, "")].filter(Boolean).join(", ") || missing}
           </span>
         </div>
         {!compact && (
           <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
             <div className="rounded-lg bg-coffee-background p-3">
               <p className="text-coffee-secondary">{t("process")}</p>
-              <p className="mt-1 font-semibold text-coffee-primary">{process || missing}</p>
+              <p className="mt-1 font-semibold text-coffee-primary">{customerText(process, missing)}</p>
             </div>
             <div className="rounded-lg bg-coffee-background p-3">
               <p className="text-coffee-secondary">{t("roastLevel")}</p>
-              <p className="mt-1 font-semibold text-coffee-primary">{bean.roastLevel}</p>
+              <p className="mt-1 font-semibold text-coffee-primary">{customerText(bean.roastLevel, missing)}</p>
             </div>
           </div>
         )}
@@ -79,12 +79,12 @@ export function BeanCard({ bean, compact = false }: BeanCardProps) {
               key={getLocalizedText(note.name, "ko")}
               className="rounded-lg border border-coffee-border bg-coffee-background px-3 py-1.5 text-xs font-medium text-coffee-secondary"
             >
-              {getLocalizedText(note.name, locale)}
+              {customerText(getLocalizedText(note.name, locale), missing)}
             </span>
           ))}
         </div>
         <div className="mt-4 flex items-center justify-between border-t border-coffee-border pt-4">
-          <span className="text-sm text-coffee-secondary">{bean.variety ?? missing}</span>
+          <span className="text-sm text-coffee-secondary">{customerText(bean.variety, missing)}</span>
           <span className="text-sm font-semibold text-coffee-primary">
             {bean.price ? formatPrice(bean.price) : missing}
           </span>
