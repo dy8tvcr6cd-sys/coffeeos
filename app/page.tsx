@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Brain, CalendarDays, ClipboardList, QrCode, Settings, Timer } from "lucide-react";
+import { ArrowRight, Brain, CalendarDays, ClipboardList, QrCode, Timer } from "lucide-react";
 import { BeanCard } from "@/components/BeanCard";
 import { PageHeader } from "@/components/PageHeader";
 import { RoasteryLogo } from "@/components/RoasteryLogo";
@@ -9,7 +10,9 @@ import { SectionCard } from "@/components/SectionCard";
 import { beans } from "@/data/beans";
 import { roasteries } from "@/data/roasteries";
 import { getLocalizedText } from "@/lib/i18n";
+import { getSensoryRecords } from "@/lib/storage";
 import { useLocale } from "@/lib/useLocale";
+import type { SensoryRecord } from "@/types/sensory";
 
 const featuredBeanIds = [
   "momos-honduras-coe-la-pena",
@@ -20,10 +23,15 @@ const featuredBeanIds = [
 
 export default function Home() {
   const { locale, t } = useLocale();
+  const [recentRecords, setRecentRecords] = useState<SensoryRecord[]>([]);
   const featuredBeans = featuredBeanIds
     .map((id) => beans.find((bean) => bean.id === id))
     .filter((bean): bean is (typeof beans)[number] => Boolean(bean));
   const scanBean = beans.find((bean) => bean.id === "peru-la-primavera-geisha-washed") ?? beans[0];
+
+  useEffect(() => {
+    setRecentRecords(getSensoryRecords().slice(0, 2));
+  }, []);
 
   return (
     <>
@@ -31,15 +39,6 @@ export default function Home() {
         title="CoffeeOS"
         eyebrow={t("qrExperience")}
         description={t("homeDescription")}
-        action={
-          <Link
-            href="/admin"
-            aria-label={t("admin")}
-            className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-lg border border-coffee-border bg-coffee-card text-coffee-primary"
-          >
-            <Settings size={18} />
-          </Link>
-        }
       />
       <div className="space-y-5 px-5">
         <SectionCard eyebrow={t("scanResult")} title={getLocalizedText(scanBean.name, locale)}>
@@ -78,14 +77,29 @@ export default function Home() {
           </div>
         </SectionCard>
 
-        <SectionCard title={t("roasteryOperatingPlatform")} eyebrow={t("productLevels")}>
-          <p className="text-sm leading-6 text-coffee-secondary">{t("b2b2cLoop")}</p>
-          <div className="mt-4 grid gap-2">
-            {([
-              ["coffeeosFree", "coffeeosFreeDescription", "/beans"],
-              ["coffeeosPro", "coffeeosProDescription", "/brew-diagnosis"],
-              ["coffeeosRoastery", "coffeeosRoasteryDescription", "/admin"]
-            ] as const).map(([titleKey, descriptionKey, href]) => (
+        <SectionCard title={t("recentCustomerRecords")}>
+          {recentRecords.length ? (
+            <div className="grid gap-2">
+              {recentRecords.map((record) => (
+                <Link
+                  key={record.id}
+                  href={`/sensory/${record.id}`}
+                  className="focus-ring rounded-lg border border-coffee-border bg-coffee-background p-3"
+                >
+                  <p className="text-sm font-semibold text-coffee-primary">{record.beanName}</p>
+                  <p className="mt-1 text-xs leading-5 text-coffee-secondary">
+                    {record.roasteryName} · {new Date(record.createdAt).toLocaleDateString("ko-KR")}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="grid gap-2">
+              {([
+                ["getPrescription", "brewDiagnosisDescription", "/brew-diagnosis"],
+                ["myRecipes", "myRecipesDescription", "/my-recipes"],
+                ["reviewArchive", "archiveDescription", "/archive"]
+              ] as const).map(([titleKey, descriptionKey, href]) => (
               <Link
                 key={titleKey}
                 href={href}
@@ -94,8 +108,9 @@ export default function Home() {
                 <p className="text-sm font-semibold text-coffee-primary">{t(titleKey)}</p>
                 <p className="mt-1 text-xs leading-5 text-coffee-secondary">{t(descriptionKey)}</p>
               </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </SectionCard>
 
         <SectionCard title={t("partnerRoasteries")}>

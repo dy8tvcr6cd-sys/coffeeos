@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { Plus, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { BeanCard } from "@/components/BeanCard";
 import { PageHeader } from "@/components/PageHeader";
 import { beans as staticBeans } from "@/data/beans";
@@ -46,15 +45,6 @@ export default function BeansPage() {
         title={t("beans")}
         eyebrow={t("beanCatalog")}
         description={t("qrFlowDescription")}
-        action={
-          <Link
-            href="/admin"
-            aria-label={t("addBean")}
-            className="focus-ring inline-flex h-10 w-10 items-center justify-center rounded-lg bg-coffee-dark text-white"
-          >
-            <Plus size={18} />
-          </Link>
-        }
       />
       <div className="space-y-4 px-5">
         <div className="rounded-lg border border-coffee-border bg-coffee-card p-3 shadow-soft">

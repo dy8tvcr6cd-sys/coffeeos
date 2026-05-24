@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function LegacyAdminRedirect() {
+export default function RoasteryAdminIndexPage() {
   redirect("/roastery-admin/login");
 }

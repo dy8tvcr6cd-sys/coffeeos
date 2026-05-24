@@ -301,6 +301,66 @@ export const translations = {
     en: "Register official bean information, brew recipes, and QR entry pages for a roastery.",
     ja: "ロースタリーが公式豆情報、抽出レシピ、QR入口ページを素早く登録します。"
   },
+  roasteryAdmin: { ko: "로스터리 관리자", en: "Roastery admin", ja: "ロースタリー管理" },
+  roasteryAdminLogin: { ko: "로스터리 관리자 로그인", en: "Roastery admin login", ja: "ロースタリー管理ログイン" },
+  roasteryAdminLoginDescription: {
+    ko: "이 영역은 로스터리 운영자를 위한 비공개 관리 공간입니다. 고객 앱에서는 노출되지 않습니다.",
+    en: "This is a private management area for roastery operators and is not exposed in the customer app.",
+    ja: "ここはロースタリー運営者向けの非公開管理エリアで、顧客向けアプリには表示されません。"
+  },
+  enterRoasteryAdmin: { ko: "관리자 영역 입장", en: "Enter admin area", ja: "管理エリアに入る" },
+  roasteryAdminDashboard: { ko: "운영 대시보드", en: "Operations dashboard", ja: "運営ダッシュボード" },
+  roasteryAdminDashboardDescription: {
+    ko: "원두 등록, QR 생성, 페이지 미리보기, 로스터리 프로필을 한곳에서 관리합니다.",
+    en: "Manage bean registration, QR links, page previews, and roastery profiles in one place.",
+    ja: "豆登録、QR生成、ページプレビュー、ロースタリープロフィールを一か所で管理します。"
+  },
+  adminAccessRequired: { ko: "관리자 접근", en: "Admin access", ja: "管理者アクセス" },
+  adminAccessDescription: {
+    ko: "정식 인증 전까지는 간단한 접근 화면을 거친 뒤 운영 도구를 확인할 수 있습니다.",
+    en: "Until full authentication is added, operators pass through a simple access screen before viewing tools.",
+    ja: "正式な認証を追加するまでは、簡単なアクセス画面を通って運営ツールを確認できます。"
+  },
+  goToLogin: { ko: "로그인 화면으로", en: "Go to login", ja: "ログイン画面へ" },
+  backToCustomerApp: { ko: "고객 앱으로 돌아가기", en: "Back to customer app", ja: "顧客アプリに戻る" },
+  beanRegistration: { ko: "원두 등록", en: "Bean registration", ja: "豆登録" },
+  registeredBeanManagement: { ko: "등록 원두 관리", en: "Registered bean management", ja: "登録豆管理" },
+  registeredBeanManagementDescription: {
+    ko: "로스터리가 등록한 원두와 공개 미리보기 페이지를 확인합니다.",
+    en: "Review registered beans and their public preview pages.",
+    ja: "登録した豆と公開プレビューページを確認します。"
+  },
+  createNewBean: { ko: "새 원두 등록", en: "Register a new bean", ja: "新しい豆を登録" },
+  qrGeneration: { ko: "QR 생성", en: "QR generation", ja: "QR生成" },
+  qrGenerationDescription: {
+    ko: "원두별 QR 진입 URL을 만들고 패키지나 안내물에 사용할 링크를 복사합니다.",
+    en: "Create bean-specific QR entry URLs and copy links for packaging or guides.",
+    ja: "豆ごとのQR入口URLを作成し、パッケージや案内物に使うリンクをコピーします。"
+  },
+  pagePreview: { ko: "페이지 미리보기", en: "Page preview", ja: "ページプレビュー" },
+  previewDescription: {
+    ko: "고객이 QR로 들어왔을 때 보게 될 공개 원두 페이지를 확인합니다.",
+    en: "Preview the public bean page customers will see after scanning a QR code.",
+    ja: "顧客がQRから入った時に見る公開豆ページを確認します。"
+  },
+  publicPreview: { ko: "공개 페이지 보기", en: "View public page", ja: "公開ページを見る" },
+  roasteryProfile: { ko: "로스터리 프로필", en: "Roastery profile", ja: "ロースタリープロフィール" },
+  roasteryProfileDescription: {
+    ko: "고객에게 보이는 로스터리 소개, 로고, 공식 링크를 관리합니다.",
+    en: "Manage the roastery introduction, logo, and official links shown to customers.",
+    ja: "顧客に表示されるロースタリー紹介、ロゴ、公式リンクを管理します。"
+  },
+  futureCustomerReactionAnalytics: {
+    ko: "향후 고객 반응 분석",
+    en: "Future customer reaction analytics",
+    ja: "今後の顧客反応分析"
+  },
+  customerReactionAnalyticsDescription: {
+    ko: "스캔, 추출 시작, 감각 기록, 재구매 클릭 흐름은 추후 로스터리 전용 지표로 확장할 수 있습니다.",
+    en: "Scan, brew start, sensory record, and repurchase-click flows can later become roastery-only metrics.",
+    ja: "スキャン、抽出開始、感覚記録、再購入クリックの流れは、今後ロースタリー専用指標に拡張できます。"
+  },
+  recentCustomerRecords: { ko: "최근 고객 기록", en: "Recent customer records", ja: "最近の顧客記録" },
   roasteryOperatingPlatform: {
     ko: "로스터리 경험 운영 플랫폼",
     en: "Roastery experience operating platform",
