@@ -8,6 +8,7 @@ import { SectionCard } from "@/components/SectionCard";
 import { beans as mockBeans } from "@/data/beans";
 import { getRoasteryById } from "@/data/roasteries";
 import { analyzeBrewLog } from "@/lib/brewDiagnosis";
+import { formatBrewLogStepDisplay } from "@/lib/brewSteps";
 import { brewProblemLabels, calculateRatio, makeDefaultSteps } from "@/lib/brewUi";
 import { getLocalizedText, type LocalizedText } from "@/lib/i18n";
 import { clearBrewLogDraft, getAllBeansClient, getBrewLogDraft, saveBrewLog } from "@/lib/storage";
@@ -150,8 +151,32 @@ export default function NewBrewLogPage() {
     () => calculateRatio(numberFrom(form.coffeeAmount), numberFrom(form.waterAmount)),
     [form.coffeeAmount, form.waterAmount]
   );
+  const previewSteps = useMemo<BrewLogStep[]>(() => {
+    let previous = 0;
+    return form.steps.map((step) => {
+      const cumulativeWaterAmount = numberFrom(step.waterAmount);
+      const stepWaterAmount = cumulativeWaterAmount > previous ? cumulativeWaterAmount - previous : 0;
+      previous = cumulativeWaterAmount;
+
+      return {
+        at: numberFrom(step.at),
+        waterAmount: cumulativeWaterAmount,
+        cumulativeWaterAmount,
+        stepWaterAmount,
+        action: localizedUserText(step.action.trim() || "푸어")
+      };
+    });
+  }, [form.steps]);
 
   const selectedBean = allBeans.find((bean) => bean.id === form.beanId);
+  const finalStepWater = previewSteps.at(-1)?.waterAmount ?? null;
+  const waterMismatch =
+    finalStepWater !== null &&
+    Math.abs(numberFrom(form.waterAmount) - finalStepWater) > 2;
+  const invalidStepWater = previewSteps.some((step, index) => {
+    const previous = index > 0 ? previewSteps[index - 1].waterAmount : 0;
+    return !step.stepWaterAmount || step.stepWaterAmount <= 0 || step.waterAmount <= previous;
+  });
 
   function update<K extends keyof BrewLogForm>(field: K, value: BrewLogForm[K]) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -197,13 +222,7 @@ export default function NewBrewLogPage() {
     }
 
     const roastery = selectedBean ? getRoasteryById(selectedBean.roasteryId) : undefined;
-    const steps: BrewLogStep[] = form.steps
-      .filter((step) => step.action.trim())
-      .map((step) => ({
-        at: numberFrom(step.at),
-        waterAmount: numberFrom(step.waterAmount),
-        action: localizedUserText(step.action.trim())
-      }));
+    const steps: BrewLogStep[] = previewSteps.filter((step) => getLocalizedText(step.action, "ko").trim());
 
     const now = new Date().toISOString();
     const logWithoutDiagnosis: BrewLog = {
@@ -340,13 +359,36 @@ export default function NewBrewLogPage() {
               <div key={index} className="rounded-lg border border-coffee-border bg-coffee-background p-3">
                 <div className="grid grid-cols-2 gap-2">
                   <Field label={t("secondsShort")} type="number" value={step.at} onChange={(value) => updateStep(index, "at", value)} />
-                  <Field label={`${t("waterAmount")} g`} type="number" value={step.waterAmount} onChange={(value) => updateStep(index, "waterAmount", value)} />
+                  <Field
+                    label={t("targetCumulativeAmount")}
+                    type="number"
+                    value={step.waterAmount}
+                    onChange={(value) => updateStep(index, "waterAmount", value)}
+                  />
                 </div>
                 <div className="mt-2">
                   <Field label={t("stepAction")} value={step.action} onChange={(value) => updateStep(index, "action", value)} />
                 </div>
+                <p className="mt-2 rounded-lg bg-coffee-card p-3 text-sm font-semibold text-coffee-primary">
+                  {t("displayPreview")}: {formatBrewLogStepDisplay(previewSteps, index, locale)}
+                </p>
               </div>
             ))}
+            <div className="rounded-lg border border-coffee-border bg-coffee-card p-4">
+              <p className="text-sm font-semibold text-coffee-primary">{t("brewStepPreview")}</p>
+              <div className="mt-3 grid gap-2">
+                {previewSteps.map((step, index) => (
+                  <p key={index} className="rounded-lg bg-coffee-background p-3 text-sm font-semibold text-coffee-primary">
+                    {formatBrewLogStepDisplay(previewSteps, index, locale)}
+                  </p>
+                ))}
+              </div>
+            </div>
+            {(waterMismatch || invalidStepWater) && (
+              <p className="rounded-lg bg-amber-50 p-3 text-sm font-semibold leading-6 text-amber-800">
+                {invalidStepWater ? t("invalidStepWaterWarning") : t("stepWaterMismatchWarning")}
+              </p>
+            )}
           </div>
         </SectionCard>
 

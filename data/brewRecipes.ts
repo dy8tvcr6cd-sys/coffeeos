@@ -5,6 +5,27 @@ function text(ko: string, en: string, ja: string): LocalizedText {
   return { ko, en, ja };
 }
 
+function step(
+  id: string,
+  at: number,
+  duration: number,
+  title: LocalizedText,
+  cumulativeWaterAmount: number,
+  stepWaterAmount: number,
+  instruction: LocalizedText
+) {
+  return {
+    id,
+    at,
+    duration,
+    title,
+    water: `${cumulativeWaterAmount} g`,
+    cumulativeWaterAmount,
+    stepWaterAmount,
+    instruction
+  };
+}
+
 function standardRecipe(id: string, beanId: string, intent: LocalizedText): BrewRecipe {
   return {
     id,
@@ -19,30 +40,33 @@ function standardRecipe(id: string, beanId: string, intent: LocalizedText): Brew
     intent,
     status: "needs_review",
     steps: [
-      {
-        id: `${id}-bloom`,
-        at: 0,
-        duration: 35,
-        title: text("블루밍", "Bloom", "ブルーム"),
-        water: "45 g",
-        instruction: text("커피 전체를 고르게 적시고 가스를 빼 줍니다.", "Wet the bed evenly and let the bloom settle.", "粉全体を均一に湿らせ、ガスを抜きます。")
-      },
-      {
-        id: `${id}-first`,
-        at: 35,
-        duration: 35,
-        title: text("첫 번째 푸어", "First pour", "一投目"),
-        water: "to 140 g",
-        instruction: text("중앙에서 바깥으로 천천히 원을 그리며 단맛을 만듭니다.", "Pour slowly in circles to build sweetness.", "中心から外側へゆっくり円を描き、甘さを引き出します。")
-      },
-      {
-        id: `${id}-finish`,
-        at: 85,
-        duration: 95,
-        title: text("마무리", "Finish", "仕上げ"),
-        water: "to 240 g",
-        instruction: text("부드럽게 마무리하고 드로우다운을 기다립니다.", "Finish gently and wait for a clean drawdown.", "やさしく注ぎ終え、きれいに落ち切るのを待ちます。")
-      }
+      step(
+        `${id}-bloom`,
+        0,
+        35,
+        text("블루밍", "Bloom", "ブルーム"),
+        45,
+        45,
+        text("커피 전체를 고르게 적시고 가스를 빼 줍니다.", "Wet the bed evenly and let the bloom settle.", "粉全体を均一に湿らせ、ガスを抜きます。")
+      ),
+      step(
+        `${id}-first`,
+        35,
+        35,
+        text("1차", "First pour", "一投目"),
+        140,
+        95,
+        text("중앙에서 바깥으로 천천히 원을 그리며 단맛을 만듭니다.", "Pour slowly in circles to build sweetness.", "中心から外側へゆっくり円を描き、甘さを引き出します。")
+      ),
+      step(
+        `${id}-finish`,
+        85,
+        95,
+        text("2차", "Second pour", "二投目"),
+        240,
+        100,
+        text("부드럽게 마무리하고 드로우다운을 기다립니다.", "Finish gently and wait for a clean drawdown.", "やさしく注ぎ終え、きれいに落ち切るのを待ちます。")
+      )
     ]
   };
 }
@@ -114,6 +138,8 @@ export const brewRecipes: BrewRecipe[] = [
         duration: 20,
         title: text("물 붓기", "Add water", "湯を注ぐ"),
         water: "300 g",
+        cumulativeWaterAmount: 300,
+        stepWaterAmount: 300,
         instruction: text("굵게 분쇄한 원두에 물을 붓고 전체를 적십니다.", "Add water to the coarse grounds and wet everything evenly.", "粗挽きの粉に湯を注ぎ、全体を均一に湿らせます。")
       },
       {
@@ -158,22 +184,28 @@ export const brewRecipes: BrewRecipe[] = [
         duration: 30,
         title: text("블루밍", "Bloom", "ブルーム"),
         water: "50 g",
+        cumulativeWaterAmount: 50,
+        stepWaterAmount: 50,
         instruction: text("50g으로 블루밍하고 커피층을 안정시킵니다.", "Bloom with 50 g and let the bed settle.", "50gでブルームし、粉床を落ち着かせます。")
       },
       {
         id: "bb-el-palmo-first",
         at: 30,
         duration: 35,
-        title: text("1차 푸어", "First pour", "一投目"),
+        title: text("1차", "First pour", "一投目"),
         water: "to 160 g",
+        cumulativeWaterAmount: 160,
+        stepWaterAmount: 110,
         instruction: text("중간 물줄기로 160g까지 올립니다.", "Use a medium stream and pour to 160 g.", "中くらいの湯量で160gまで注ぎます。")
       },
       {
         id: "bb-el-palmo-second",
         at: 65,
         duration: 90,
-        title: text("2차 푸어", "Second pour", "二投目"),
+        title: text("2차", "Second pour", "二投目"),
         water: "to 320 g",
+        cumulativeWaterAmount: 320,
+        stepWaterAmount: 160,
         instruction: text("320g까지 올린 뒤 가볍게 스월링합니다.", "Pour to 320 g, then swirl lightly.", "320gまで注ぎ、軽くスワールします。")
       }
     ]

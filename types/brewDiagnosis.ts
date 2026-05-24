@@ -4,6 +4,8 @@ import type { Bean } from "@/types/bean";
 export type BrewLogStep = {
   at: number;
   waterAmount: number;
+  cumulativeWaterAmount?: number;
+  stepWaterAmount?: number;
   action: LocalizedText;
 };
 

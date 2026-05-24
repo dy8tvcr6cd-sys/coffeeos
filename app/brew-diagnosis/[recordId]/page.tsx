@@ -7,6 +7,7 @@ import { ArrowRight, Check, RotateCcw, Save } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionCard } from "@/components/SectionCard";
 import { analyzeBrewLog } from "@/lib/brewDiagnosis";
+import { formatBrewLogStepDisplay, formatStepWaterDisplay } from "@/lib/brewSteps";
 import {
   brewProblemLabels,
   confidenceLabels,
@@ -112,6 +113,24 @@ export default function BrewDiagnosisDetailPage() {
               [t("totalTime"), formatSeconds(log.recipe.totalTimeSeconds)]
             ].map(([label, value]) => (
               <InfoTile key={label} label={label} value={value} />
+            ))}
+          </div>
+        </SectionCard>
+
+        <SectionCard title={t("pouringSteps")}>
+          <div className="grid gap-2">
+            {log.recipe.steps.map((step, index) => (
+              <div key={index} className="grid grid-cols-[64px_1fr] gap-2 rounded-lg bg-coffee-background p-3 text-sm">
+                <span className="font-semibold text-coffee-primary">{formatSeconds(step.at)}</span>
+                <span>
+                  <span className="block font-semibold text-coffee-primary">
+                    {formatBrewLogStepDisplay(log.recipe.steps, index, locale)}
+                  </span>
+                  <span className="mt-1 block text-xs font-semibold text-coffee-secondary">
+                    {formatStepWaterDisplay(log.recipe.steps, index)}
+                  </span>
+                </span>
+              </div>
             ))}
           </div>
         </SectionCard>

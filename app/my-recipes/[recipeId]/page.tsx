@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { ArrowRight, Trash2 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionCard } from "@/components/SectionCard";
+import { formatBrewLogStepDisplay, formatStepWaterDisplay } from "@/lib/brewSteps";
 import { formatSeconds } from "@/lib/brewUi";
 import { getLocalizedText } from "@/lib/i18n";
 import { deleteSavedRecipe, getSavedRecipeById } from "@/lib/storage";
@@ -79,10 +80,16 @@ export default function SavedRecipeDetailPage() {
         <SectionCard title={t("pouringSteps")}>
           <div className="grid gap-2">
             {recipe.recipe.steps.map((step, index) => (
-              <div key={index} className="grid grid-cols-[64px_72px_1fr] gap-2 rounded-lg bg-coffee-background p-3 text-sm">
+              <div key={index} className="grid grid-cols-[64px_1fr] gap-2 rounded-lg bg-coffee-background p-3 text-sm">
                 <span className="font-semibold text-coffee-primary">{formatSeconds(step.at)}</span>
-                <span className="font-semibold text-coffee-secondary">{step.waterAmount} g</span>
-                <span className="text-coffee-secondary">{getLocalizedText(step.action, locale)}</span>
+                <span>
+                  <span className="block font-semibold text-coffee-primary">
+                    {formatBrewLogStepDisplay(recipe.recipe.steps, index, locale)}
+                  </span>
+                  <span className="mt-1 block text-xs font-semibold text-coffee-secondary">
+                    {formatStepWaterDisplay(recipe.recipe.steps, index)}
+                  </span>
+                </span>
               </div>
             ))}
           </div>

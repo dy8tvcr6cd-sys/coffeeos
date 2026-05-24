@@ -6,12 +6,22 @@ import { Check, Circle, Plus } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionCard } from "@/components/SectionCard";
 import { roasteries } from "@/data/roasteries";
+import { createLocalizedTextFromPrimary, formatRecipeStepDisplay, parseGramAmount } from "@/lib/brewSteps";
 import { hasLocalizedValue } from "@/lib/customerDisplay";
 import { getLocalizedText, type LocalizedText } from "@/lib/i18n";
 import { addCustomBean, getCustomBeans } from "@/lib/storage";
 import { useLocale } from "@/lib/useLocale";
 import type { Bean, RoastLevel } from "@/types/bean";
 import type { BrewRecipe } from "@/types/brew";
+
+type RecipeWaterMode = "step" | "cumulative";
+
+type BrewStepForm = {
+  title: LocalizedText;
+  at: string;
+  waterAmount: string;
+  instruction: LocalizedText;
+};
 
 type BeanForm = {
   name: LocalizedText;
@@ -44,6 +54,8 @@ type BeanForm = {
   waterAmount: string;
   totalTimeSeconds: string;
   brewDescription: LocalizedText;
+  recipeWaterMode: RecipeWaterMode;
+  brewSteps: BrewStepForm[];
 };
 
 const blankText: LocalizedText = { ko: "", en: "", ja: "" };
@@ -75,10 +87,37 @@ const initialForm: BeanForm = {
   brewer: "Hario V60",
   grindSize: "Medium",
   waterTemperature: "92 C",
-  coffeeAmount: "15 g",
-  waterAmount: "240 g",
+  coffeeAmount: "13 g",
+  waterAmount: "200 g",
   totalTimeSeconds: "180",
-  brewDescription: blankText
+  brewDescription: blankText,
+  recipeWaterMode: "step",
+  brewSteps: [
+    {
+      title: createLocalizedTextFromPrimary("블루밍", "Bloom", "ブルーム"),
+      at: "0",
+      waterAmount: "40",
+      instruction: createLocalizedTextFromPrimary("커피 전체를 고르게 적십니다.", "Wet all grounds evenly.", "粉全体を均一に湿らせます。")
+    },
+    {
+      title: createLocalizedTextFromPrimary("1차", "First pour", "一投目"),
+      at: "35",
+      waterAmount: "40",
+      instruction: createLocalizedTextFromPrimary("중앙에서 바깥으로 일정하게 붓습니다.", "Pour steadily from the center outward.", "中心から外側へ一定に注ぎます。")
+    },
+    {
+      title: createLocalizedTextFromPrimary("2차", "Second pour", "二投目"),
+      at: "75",
+      waterAmount: "60",
+      instruction: createLocalizedTextFromPrimary("단맛이 무너지지 않게 물줄기를 부드럽게 유지합니다.", "Keep the stream gentle to preserve sweetness.", "甘さを保つように湯流をやさしく保ちます。")
+    },
+    {
+      title: createLocalizedTextFromPrimary("3차", "Third pour", "三投目"),
+      at: "115",
+      waterAmount: "60",
+      instruction: createLocalizedTextFromPrimary("목표 물량까지 천천히 마무리합니다.", "Finish slowly to the target water amount.", "目標湯量までゆっくり仕上げます。")
+    }
+  ]
 };
 
 const localeLabels = {
@@ -99,8 +138,8 @@ const roastLevelOptions: { value: RoastLevel; label: LocalizedText }[] = [
 function withFallback(value: LocalizedText): LocalizedText {
   return {
     ko: value.ko.trim(),
-    en: value.en.trim() || value.ko.trim(),
-    ja: value.ja.trim() || value.ko.trim()
+    en: value.en.trim(),
+    ja: value.ja.trim()
   };
 }
 
@@ -127,6 +166,36 @@ function splitLocalizedNotes(value: LocalizedText) {
     color: ["#C8A45D", "#C85D5D", "#8A6F4D"][index % 3],
     category: "unknown" as const
   }));
+}
+
+function numberFrom(value: string) {
+  const parsed = Number(String(value).replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function buildRecipeSteps(form: BeanForm, recipeId: string, totalTimeSeconds: number): BrewRecipe["steps"] {
+  let cumulative = 0;
+
+  return form.brewSteps.map((step, index) => {
+    const rawWater = numberFrom(step.waterAmount);
+    const cumulativeWaterAmount = form.recipeWaterMode === "step" ? cumulative + rawWater : rawWater;
+    const stepWaterAmount = form.recipeWaterMode === "step" ? rawWater : index === 0 ? rawWater : rawWater - cumulative;
+    cumulative = cumulativeWaterAmount;
+
+    const nextAt = numberFrom(form.brewSteps[index + 1]?.at ?? String(totalTimeSeconds));
+    const at = numberFrom(step.at);
+
+    return {
+      id: `${recipeId}-step-${index + 1}`,
+      at,
+      duration: Math.max(nextAt - at, 20),
+      title: withFallback(step.title),
+      water: `${cumulativeWaterAmount} g`,
+      cumulativeWaterAmount,
+      stepWaterAmount,
+      instruction: withFallback(step.instruction)
+    };
+  });
 }
 
 export function RoasteryAdminBeanRegistration() {
@@ -186,6 +255,20 @@ export function RoasteryAdminBeanRegistration() {
   const savedQrUrl = savedId
     ? `${typeof window !== "undefined" ? window.location.origin : ""}/beans/${savedId}`
     : "";
+  const previewSteps = useMemo(
+    () => buildRecipeSteps(form, "preview", Number(form.totalTimeSeconds) || 180),
+    [form]
+  );
+  const hasInvalidStepWater = previewSteps.some((step, index) => {
+    const previous = index > 0 ? previewSteps[index - 1].cumulativeWaterAmount ?? 0 : 0;
+    return !step.stepWaterAmount || step.stepWaterAmount <= 0 || (step.cumulativeWaterAmount ?? 0) <= previous;
+  });
+  const totalRecipeWater = parseGramAmount(form.waterAmount);
+  const finalStepWater = previewSteps.at(-1)?.cumulativeWaterAmount ?? null;
+  const waterMismatch =
+    totalRecipeWater !== null &&
+    finalStepWater !== null &&
+    Math.abs(totalRecipeWater - finalStepWater) > 2;
 
   function updateTextField(field: keyof BeanForm, lang: keyof LocalizedText, value: string) {
     setForm((current) => ({
@@ -200,6 +283,34 @@ export function RoasteryAdminBeanRegistration() {
 
   function updateField(field: keyof BeanForm, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
+    setError("");
+  }
+
+  function updateStep(index: number, field: keyof BrewStepForm, value: string | LocalizedText) {
+    setForm((current) => ({
+      ...current,
+      brewSteps: current.brewSteps.map((step, stepIndex) =>
+        stepIndex === index ? { ...step, [field]: value } : step
+      )
+    }));
+    setError("");
+  }
+
+  function updateStepText(index: number, field: "title" | "instruction", lang: keyof LocalizedText, value: string) {
+    setForm((current) => ({
+      ...current,
+      brewSteps: current.brewSteps.map((step, stepIndex) =>
+        stepIndex === index
+          ? {
+              ...step,
+              [field]: {
+                ...step[field],
+                [lang]: value
+              }
+            }
+          : step
+      )
+    }));
     setError("");
   }
 
@@ -262,6 +373,8 @@ export function RoasteryAdminBeanRegistration() {
       lastResearchedAt: new Date().toISOString().slice(0, 10)
     };
 
+    const recipeSteps = buildRecipeSteps(form, recipeId, totalTimeSeconds);
+
     const recipe: BrewRecipe = {
       id: recipeId,
       beanId: id,
@@ -274,32 +387,7 @@ export function RoasteryAdminBeanRegistration() {
       totalTimeSeconds,
       intent: withFallback(form.brewDescription),
       status: "needs_review",
-      steps: [
-        {
-          id: `${recipeId}-bloom`,
-          at: 0,
-          duration: 35,
-          title: { ko: "블루밍", en: "Bloom", ja: "ブルーム" },
-          water: "25%",
-          instruction: { ko: "커피 전체를 고르게 적십니다.", en: "Wet the coffee evenly.", ja: "粉全体を均一に湿らせます。" }
-        },
-        {
-          id: `${recipeId}-build`,
-          at: 35,
-          duration: 50,
-          title: { ko: "단맛 만들기", en: "Build sweetness", ja: "甘さを作る" },
-          water: "60%",
-          instruction: { ko: "천천히 원을 그리며 단맛을 만듭니다.", en: "Pour slowly in circles to build sweetness.", ja: "ゆっくり円を描いて甘さを引き出します。" }
-        },
-        {
-          id: `${recipeId}-finish`,
-          at: 95,
-          duration: Math.max(totalTimeSeconds - 95, 45),
-          title: { ko: "마무리", en: "Finish", ja: "仕上げ" },
-          water: "100%",
-          instruction: { ko: "부드럽게 마무리하고 드로우다운을 기다립니다.", en: "Finish gently and wait for drawdown.", ja: "やさしく注ぎ終え、落ち切るのを待ちます。" }
-        }
-      ]
+      steps: recipeSteps
     };
 
     addCustomBean(bean, recipe);
@@ -431,6 +519,98 @@ export function RoasteryAdminBeanRegistration() {
             </div>
           </SectionCard>
 
+          <SectionCard
+            title={t("pouringSteps")}
+            action={
+              <button
+                type="button"
+                onClick={() =>
+                  setForm((current) => ({
+                    ...current,
+                    brewSteps: [
+                      ...current.brewSteps,
+                      {
+                        title: createLocalizedTextFromPrimary(`추가 ${current.brewSteps.length + 1}`),
+                        at: String(Number(current.totalTimeSeconds.replace(/[^0-9.]/g, "")) || 180),
+                        waterAmount: "40",
+                        instruction: createLocalizedTextFromPrimary("물줄기를 일정하게 유지합니다.")
+                      }
+                    ]
+                  }))
+                }
+                className="focus-ring inline-flex h-9 items-center gap-1 rounded-lg bg-coffee-dark px-3 text-xs font-semibold text-white"
+              >
+                <Plus size={14} />
+                {t("addStep")}
+              </button>
+            }
+          >
+            <div className="grid gap-4">
+              <div className="grid grid-cols-2 gap-2 rounded-lg bg-coffee-background p-1">
+                {([
+                  ["step", t("pourAmountMode")],
+                  ["cumulative", t("cumulativeAmountMode")]
+                ] as const).map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => setForm((current) => ({ ...current, recipeWaterMode: value }))}
+                    className={`focus-ring h-10 rounded-lg text-xs font-semibold ${
+                      form.recipeWaterMode === value ? "bg-coffee-dark text-white" : "text-coffee-secondary"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {form.brewSteps.map((step, index) => (
+                <div key={index} className="rounded-lg border border-coffee-border bg-coffee-background p-3">
+                  <div className="grid gap-3">
+                    <LocalizedField
+                      label={t("stepTitle")}
+                      value={step.title}
+                      onChange={(lang, value) => updateStepText(index, "title", lang, value)}
+                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <Field label={t("secondsShort")} value={step.at} onChange={(value) => updateStep(index, "at", value)} />
+                      <Field
+                        label={form.recipeWaterMode === "step" ? t("currentPourAmount") : t("targetCumulativeAmount")}
+                        value={step.waterAmount}
+                        onChange={(value) => updateStep(index, "waterAmount", value)}
+                      />
+                    </div>
+                    <LocalizedTextArea
+                      label={t("stepDescription")}
+                      value={step.instruction}
+                      onChange={(lang, value) => updateStepText(index, "instruction", lang, value)}
+                    />
+                    <p className="rounded-lg bg-coffee-card p-3 text-sm font-semibold text-coffee-primary">
+                      {t("displayPreview")}: {formatRecipeStepDisplay(previewSteps, index, locale)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+              <div className="rounded-lg border border-coffee-border bg-coffee-card p-4">
+                <p className="text-sm font-semibold text-coffee-primary">{t("brewStepPreview")}</p>
+                <div className="mt-3 grid gap-2">
+                  {previewSteps.map((step, index) => (
+                    <p key={step.id ?? index} className="rounded-lg bg-coffee-background p-3 text-sm font-semibold text-coffee-primary">
+                      {formatRecipeStepDisplay(previewSteps, index, locale)}
+                    </p>
+                  ))}
+                </div>
+              </div>
+
+              {(waterMismatch || hasInvalidStepWater) && (
+                <p className="rounded-lg bg-amber-50 p-3 text-sm font-semibold leading-6 text-amber-800">
+                  {hasInvalidStepWater ? t("invalidStepWaterWarning") : t("stepWaterMismatchWarning")}
+                </p>
+              )}
+            </div>
+          </SectionCard>
+
           {error && <p className="rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">{error}</p>}
 
           <button
@@ -511,20 +691,39 @@ function LocalizedField({
   value: LocalizedText;
   onChange: (lang: keyof LocalizedText, value: string) => void;
 }) {
+  const { t } = useLocale();
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <div className="rounded-lg border border-coffee-border p-3">
       <p className="mb-3 text-sm font-semibold text-coffee-primary">{label}</p>
       <div className="grid gap-2">
-        {(["ko", "en", "ja"] as const).map((lang) => (
-          <label key={lang} className="block">
-            <span className="mb-1 block text-xs font-semibold uppercase text-coffee-secondary">{localeLabels[lang]}</span>
-            <input
-              value={value[lang]}
-              onChange={(event) => onChange(lang, event.target.value)}
-              className="focus-ring h-11 w-full rounded-lg border border-coffee-border bg-coffee-background px-3 text-sm text-coffee-primary"
-            />
-          </label>
-        ))}
+        <label className="block">
+          <span className="mb-1 block text-xs font-semibold uppercase text-coffee-secondary">{localeLabels.ko}</span>
+          <input
+            value={value.ko}
+            onChange={(event) => onChange("ko", event.target.value)}
+            className="focus-ring h-11 w-full rounded-lg border border-coffee-border bg-coffee-background px-3 text-sm text-coffee-primary"
+          />
+        </label>
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          className="focus-ring h-10 rounded-lg border border-coffee-border bg-coffee-card px-3 text-xs font-semibold text-coffee-secondary"
+        >
+          {expanded ? t("advancedTranslationSettings") : t("addTranslation")}
+        </button>
+        {expanded &&
+          (["en", "ja"] as const).map((lang) => (
+            <label key={lang} className="block">
+              <span className="mb-1 block text-xs font-semibold uppercase text-coffee-secondary">{localeLabels[lang]}</span>
+              <input
+                value={value[lang]}
+                onChange={(event) => onChange(lang, event.target.value)}
+                className="focus-ring h-11 w-full rounded-lg border border-coffee-border bg-coffee-background px-3 text-sm text-coffee-primary"
+              />
+            </label>
+          ))}
       </div>
     </div>
   );
@@ -539,21 +738,41 @@ function LocalizedTextArea({
   value: LocalizedText;
   onChange: (lang: keyof LocalizedText, value: string) => void;
 }) {
+  const { t } = useLocale();
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <div className="rounded-lg border border-coffee-border p-3">
       <p className="mb-3 text-sm font-semibold text-coffee-primary">{label}</p>
       <div className="grid gap-2">
-        {(["ko", "en", "ja"] as const).map((lang) => (
-          <label key={lang} className="block">
-            <span className="mb-1 block text-xs font-semibold uppercase text-coffee-secondary">{localeLabels[lang]}</span>
-            <textarea
-              value={value[lang]}
-              onChange={(event) => onChange(lang, event.target.value)}
-              rows={3}
-              className="focus-ring w-full resize-none rounded-lg border border-coffee-border bg-coffee-background p-3 text-sm text-coffee-primary"
-            />
-          </label>
-        ))}
+        <label className="block">
+          <span className="mb-1 block text-xs font-semibold uppercase text-coffee-secondary">{localeLabels.ko}</span>
+          <textarea
+            value={value.ko}
+            onChange={(event) => onChange("ko", event.target.value)}
+            rows={3}
+            className="focus-ring w-full resize-none rounded-lg border border-coffee-border bg-coffee-background p-3 text-sm text-coffee-primary"
+          />
+        </label>
+        <button
+          type="button"
+          onClick={() => setExpanded((current) => !current)}
+          className="focus-ring h-10 rounded-lg border border-coffee-border bg-coffee-card px-3 text-xs font-semibold text-coffee-secondary"
+        >
+          {expanded ? t("advancedTranslationSettings") : t("addTranslation")}
+        </button>
+        {expanded &&
+          (["en", "ja"] as const).map((lang) => (
+            <label key={lang} className="block">
+              <span className="mb-1 block text-xs font-semibold uppercase text-coffee-secondary">{localeLabels[lang]}</span>
+              <textarea
+                value={value[lang]}
+                onChange={(event) => onChange(lang, event.target.value)}
+                rows={3}
+                className="focus-ring w-full resize-none rounded-lg border border-coffee-border bg-coffee-background p-3 text-sm text-coffee-primary"
+              />
+            </label>
+          ))}
       </div>
     </div>
   );

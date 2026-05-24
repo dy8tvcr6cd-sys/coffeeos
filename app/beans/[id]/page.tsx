@@ -14,6 +14,7 @@ import { getRecipeByBeanId } from "@/data/brewRecipes";
 import { getFarmById } from "@/data/farms";
 import { getRoasteryById } from "@/data/roasteries";
 import { customerText } from "@/lib/customerDisplay";
+import { formatRecipeStepDisplay } from "@/lib/brewSteps";
 import { formatPrice, formatTime } from "@/lib/format";
 import { getAllBeansClient, getBeanByIdClient, getRecipeByBeanIdClient } from "@/lib/storage";
 import type { Bean } from "@/types/bean";
@@ -233,6 +234,13 @@ export default function BeanDetailPage() {
               <BookOpen className="mt-0.5 shrink-0" size={16} />
               {customerText(getLocalizedText(recipe.intent, locale), t("registeredSoon"))}
             </p>
+            <div className="mt-4 grid gap-2">
+              {recipe.steps.slice(0, 4).map((step, index) => (
+                <div key={step.id ?? index} className="rounded-lg bg-coffee-background p-3 text-sm font-semibold text-coffee-primary">
+                  {formatRecipeStepDisplay(recipe.steps, index, locale)}
+                </div>
+              ))}
+            </div>
           </SectionCard>
         )}
 

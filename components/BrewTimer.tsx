@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Pause, Play, RotateCcw } from "lucide-react";
 import type { BrewRecipe } from "@/types/brew";
+import { formatRecipeStepDisplay } from "@/lib/brewSteps";
 import { formatTime } from "@/lib/format";
 import { BrewStepList } from "@/components/BrewStepList";
 import { SectionCard } from "@/components/SectionCard";
@@ -105,7 +106,9 @@ export function BrewTimer({ recipe }: BrewTimerProps) {
 
       <SectionCard title={t("nowBrewing")}>
         <div className="rounded-lg bg-coffee-background p-4">
-          <p className="text-sm font-semibold text-coffee-primary">{currentStep?.water}</p>
+          <p className="text-sm font-semibold text-coffee-primary">
+            {currentStep ? formatRecipeStepDisplay(recipe.steps, currentStepIndex, locale) : ""}
+          </p>
           <p className="mt-2 text-sm leading-6 text-coffee-secondary">
             {getLocalizedText(currentStep?.instruction, locale)}
           </p>
@@ -114,7 +117,7 @@ export function BrewTimer({ recipe }: BrewTimerProps) {
           <p className="text-xs font-semibold uppercase text-coffee-accent">{t("next")}</p>
           <p className="mt-1 text-sm font-semibold text-coffee-primary">
             {nextStep
-              ? `${formatTime(nextStep.at)} ${getLocalizedText(nextStep.title, locale)}`
+              ? `${formatTime(nextStep.at)} ${formatRecipeStepDisplay(recipe.steps, currentStepIndex + 1, locale)}`
               : t("sensoryRecord")}
           </p>
         </div>

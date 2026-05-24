@@ -1,11 +1,13 @@
 import type { LocalizedText } from "@/lib/i18n";
 
 export type BrewStep = {
-  id: string;
+  id?: string;
   at: number;
-  duration: number;
+  duration?: number;
   title: LocalizedText;
-  water: string;
+  water?: string;
+  cumulativeWaterAmount?: number;
+  stepWaterAmount?: number;
   instruction: LocalizedText;
 };
 

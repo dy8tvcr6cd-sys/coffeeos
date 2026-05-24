@@ -7,6 +7,7 @@ import { ArrowRight, FlaskConical } from "lucide-react";
 import { BeanCard } from "@/components/BeanCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionCard } from "@/components/SectionCard";
+import { formatBrewLogStepDisplay } from "@/lib/brewSteps";
 import { formatSeconds, prescriptionVariableLabels } from "@/lib/brewUi";
 import { getLocalizedText } from "@/lib/i18n";
 import { matchRecipeToBean } from "@/lib/recipeMatcher";
@@ -85,6 +86,13 @@ export default function RecipeMatchPage() {
             <InfoTile label={t("ratio")} value={recipe.recipe.ratio} />
             <InfoTile label={t("waterTemperature")} value={`${recipe.recipe.waterTemperature} C`} />
             <InfoTile label={t("totalTime")} value={formatSeconds(recipe.recipe.totalTimeSeconds)} />
+          </div>
+          <div className="mt-4 grid gap-2">
+            {recipe.recipe.steps.slice(0, 4).map((step, index) => (
+              <p key={index} className="rounded-lg bg-coffee-background p-3 text-sm font-semibold text-coffee-primary">
+                {formatSeconds(step.at)} · {formatBrewLogStepDisplay(recipe.recipe.steps, index, locale)}
+              </p>
+            ))}
           </div>
         </SectionCard>
 

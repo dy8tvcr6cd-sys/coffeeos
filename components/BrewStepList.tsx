@@ -1,4 +1,5 @@
 import type { BrewRecipe } from "@/types/brew";
+import { formatRecipeStepDisplay, formatStepWaterDisplay } from "@/lib/brewSteps";
 import { formatTime } from "@/lib/format";
 import { getLocalizedText } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
@@ -18,7 +19,7 @@ export function BrewStepList({ recipe, currentStepIndex }: BrewStepListProps) {
         const complete = index < currentStepIndex;
         return (
           <div
-            key={step.id}
+            key={step.id ?? index}
             aria-current={active ? "step" : undefined}
             className={`rounded-lg border p-4 transition ${
               active
@@ -31,9 +32,9 @@ export function BrewStepList({ recipe, currentStepIndex }: BrewStepListProps) {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className={`text-xs font-semibold ${active ? "text-coffee-accent" : "text-coffee-secondary"}`}>
-                  {formatTime(step.at)} / {step.water}
+                  {formatTime(step.at)} / {formatStepWaterDisplay(recipe.steps, index)}
                 </p>
-                <h3 className="mt-1 text-base font-semibold">{getLocalizedText(step.title, locale)}</h3>
+                <h3 className="mt-1 text-base font-semibold">{formatRecipeStepDisplay(recipe.steps, index, locale)}</h3>
               </div>
               <div
                 className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg text-sm font-bold ${
