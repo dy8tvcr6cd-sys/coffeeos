@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Archive, BookOpen, Coffee, Compass, FlaskConical, Home, Store } from "lucide-react";
+import { Archive, BookOpen, Coffee, Compass, FlaskConical, Home, Settings, Store } from "lucide-react";
 import { useLocale } from "@/lib/useLocale";
 
 const items = [
@@ -12,7 +12,8 @@ const items = [
   { href: "/brew-diagnosis", labelKey: "brewDiagnosis", icon: FlaskConical },
   { href: "/my-recipes", labelKey: "myRecipes", icon: BookOpen },
   { href: "/archive", labelKey: "archive", icon: Archive },
-  { href: "/recommend", labelKey: "taste", icon: Compass }
+  { href: "/recommend", labelKey: "taste", icon: Compass },
+  { href: "/admin", labelKey: "admin", icon: Settings }
 ] as const;
 
 export function BottomNavigation() {

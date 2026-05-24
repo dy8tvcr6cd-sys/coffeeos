@@ -78,16 +78,25 @@ export default function Home() {
           </div>
         </SectionCard>
 
-        <div className="grid grid-cols-2 gap-3">
-          <Link href="/roasteries" className="focus-ring rounded-lg border border-coffee-border bg-coffee-card p-4 shadow-soft">
-            <p className="text-2xl font-semibold text-coffee-primary">{roasteries.length}</p>
-            <p className="mt-1 text-sm text-coffee-secondary">{t("roasteries")}</p>
-          </Link>
-          <Link href="/beans" className="focus-ring rounded-lg border border-coffee-border bg-coffee-card p-4 shadow-soft">
-            <p className="text-2xl font-semibold text-coffee-primary">{beans.length}</p>
-            <p className="mt-1 text-sm text-coffee-secondary">{t("beans")}</p>
-          </Link>
-        </div>
+        <SectionCard title={t("roasteryOperatingPlatform")} eyebrow={t("productLevels")}>
+          <p className="text-sm leading-6 text-coffee-secondary">{t("b2b2cLoop")}</p>
+          <div className="mt-4 grid gap-2">
+            {([
+              ["coffeeosFree", "coffeeosFreeDescription", "/beans"],
+              ["coffeeosPro", "coffeeosProDescription", "/brew-diagnosis"],
+              ["coffeeosRoastery", "coffeeosRoasteryDescription", "/admin"]
+            ] as const).map(([titleKey, descriptionKey, href]) => (
+              <Link
+                key={titleKey}
+                href={href}
+                className="focus-ring rounded-lg border border-coffee-border bg-coffee-background p-3"
+              >
+                <p className="text-sm font-semibold text-coffee-primary">{t(titleKey)}</p>
+                <p className="mt-1 text-xs leading-5 text-coffee-secondary">{t(descriptionKey)}</p>
+              </Link>
+            ))}
+          </div>
+        </SectionCard>
 
         <SectionCard title={t("partnerRoasteries")}>
           <div className="grid grid-cols-2 gap-2">

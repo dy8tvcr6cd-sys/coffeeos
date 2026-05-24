@@ -3,17 +3,19 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { BookOpen, Check, ShoppingBag, Timer, Waves } from "lucide-react";
+import { Archive, BookOpen, ShoppingBag, Timer, Waves } from "lucide-react";
 import { BeanCard } from "@/components/BeanCard";
 import { CupNoteTimeline } from "@/components/CupNoteTimeline";
 import { PageHeader } from "@/components/PageHeader";
 import { RoasteryLogo } from "@/components/RoasteryLogo";
 import { SectionCard } from "@/components/SectionCard";
+import { beans as staticBeans, getBeanById } from "@/data/beans";
+import { getRecipeByBeanId } from "@/data/brewRecipes";
 import { getFarmById } from "@/data/farms";
 import { getRoasteryById } from "@/data/roasteries";
 import { customerText } from "@/lib/customerDisplay";
 import { formatPrice, formatTime } from "@/lib/format";
-import { addPurchaseIntent, getAllBeansClient, getBeanByIdClient, getRecipeByBeanIdClient } from "@/lib/storage";
+import { getAllBeansClient, getBeanByIdClient, getRecipeByBeanIdClient } from "@/lib/storage";
 import type { Bean } from "@/types/bean";
 import { getLocalizedText } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
@@ -21,18 +23,18 @@ import { useLocale } from "@/lib/useLocale";
 export default function BeanDetailPage() {
   const { locale, t } = useLocale();
   const params = useParams<{ id: string }>();
-  const [bean, setBean] = useState<Bean | undefined>();
-  const [allBeans, setAllBeans] = useState<Bean[]>([]);
-  const [purchased, setPurchased] = useState(false);
+  const [clientBean, setClientBean] = useState<Bean | undefined>();
+  const [allBeans, setAllBeans] = useState<Bean[]>(staticBeans);
 
   useEffect(() => {
-    setBean(getBeanByIdClient(params.id));
+    setClientBean(getBeanByIdClient(params.id));
     setAllBeans(getAllBeansClient());
   }, [params.id]);
 
+  const bean = clientBean ?? getBeanById(params.id);
   const roastery = bean ? getRoasteryById(bean.roasteryId) : undefined;
   const farm = bean?.farmId ? getFarmById(bean.farmId) : undefined;
-  const recipe = bean ? getRecipeByBeanIdClient(bean.id) : undefined;
+  const recipe = bean ? getRecipeByBeanIdClient(bean.id) ?? getRecipeByBeanId(bean.id) : undefined;
   const similarBeans = useMemo(() => {
     if (!bean) {
       return [];
@@ -73,17 +75,6 @@ export default function BeanDetailPage() {
     [t("density"), bean.density]
   ];
 
-  function purchase(currentBean: Bean) {
-    addPurchaseIntent({
-      id: `${currentBean.id}-${Date.now()}`,
-      beanId: currentBean.id,
-      beanName: getLocalizedText(currentBean.name, locale),
-      price: currentBean.price,
-      createdAt: new Date().toISOString()
-    });
-    setPurchased(true);
-  }
-
   const beanName = getLocalizedText(bean.name, locale);
   const roasteryName = getLocalizedText(roastery?.name, locale) || "CoffeeOS";
   const description = [
@@ -115,28 +106,43 @@ export default function BeanDetailPage() {
               {customerText(bean.roastLevel, t("registeredSoon"))}
             </div>
           </div>
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onClick={() => purchase(bean)}
-              className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-coffee-dark px-2 text-sm font-semibold text-white"
-            >
-              {purchased ? <Check size={16} /> : <ShoppingBag size={16} />}
-              {purchased ? t("saved") : t("buy")}
-            </button>
+          <div className="mt-4 grid grid-cols-2 gap-2">
             <Link
               href={`/beans/${bean.id}/brew`}
-              className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-coffee-border bg-coffee-card px-2 text-sm font-semibold text-coffee-primary"
+              className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-coffee-dark px-2 text-sm font-semibold text-white"
             >
               <Timer size={16} />
-              {t("brew")}
+              {t("startBrew")}
             </Link>
+            {bean.purchaseUrl ? (
+              <a
+                href={bean.purchaseUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-coffee-border bg-coffee-card px-2 text-sm font-semibold text-coffee-primary"
+              >
+                <ShoppingBag size={16} />
+                {t("buyNow")}
+              </a>
+            ) : (
+              <span className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-coffee-border bg-coffee-background px-2 text-sm font-semibold text-coffee-secondary">
+                <ShoppingBag size={16} />
+                {t("registeredSoon")}
+              </span>
+            )}
             <Link
               href={`/beans/${bean.id}/sensory`}
               className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-coffee-border bg-coffee-card px-2 text-sm font-semibold text-coffee-primary"
             >
               <Waves size={16} />
-              {t("record")}
+              {t("sensoryRecord")}
+            </Link>
+            <Link
+              href={`/archive?beanId=${bean.id}`}
+              className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-coffee-border bg-coffee-card px-2 text-sm font-semibold text-coffee-primary"
+            >
+              <Archive size={16} />
+              {t("myRecords")}
             </Link>
           </div>
         </SectionCard>
@@ -246,19 +252,6 @@ export default function BeanDetailPage() {
             </Link>
           </div>
         </SectionCard>
-
-        {bean.purchaseUrl && (
-          <SectionCard title={t("purchaseUrl")}>
-            <a
-              href={bean.purchaseUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg bg-coffee-dark px-4 text-sm font-semibold text-white"
-            >
-              {t("buy")}
-            </a>
-          </SectionCard>
-        )}
 
         <section>
           <h2 className="mb-3 text-lg font-semibold text-coffee-primary">{t("similarBeans")}</h2>

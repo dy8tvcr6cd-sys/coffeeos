@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Check, Save } from "lucide-react";
 import type { Bean } from "@/types/bean";
-import type { SensoryMode, SensoryScores } from "@/types/sensory";
+import type { ProfessionalCvaRecord, SensoryMode, SensoryScores } from "@/types/sensory";
 import { getRoasteryById } from "@/data/roasteries";
 import { FlavorChip } from "@/components/FlavorChip";
 import { SectionCard } from "@/components/SectionCard";
@@ -78,10 +78,24 @@ const defaultScores: SensoryScores = {
   aroma: 7,
   flavor: 7,
   acidity: 7,
+  sweetness: 7,
   body: 7,
   balance: 7,
   aftertaste: 7,
   overall: 7
+};
+
+const defaultProfessional: ProfessionalCvaRecord = {
+  sampleInfo: "",
+  sampleNumber: "",
+  evaluator: "",
+  cuppingDate: new Date().toISOString().slice(0, 10),
+  dryAroma: "",
+  wetAroma: "",
+  flavorDescription: "",
+  defects: "",
+  finalSummary: "",
+  finalScore: 84
 };
 
 type SensoryFormProps = {
@@ -94,8 +108,10 @@ export function SensoryForm({ bean }: SensoryFormProps) {
   const [mode, setMode] = useState<SensoryMode>("beginner");
   const [descriptors, setDescriptors] = useState<string[]>([]);
   const [scores, setScores] = useState<SensoryScores>(defaultScores);
+  const [professional, setProfessional] = useState<ProfessionalCvaRecord>(defaultProfessional);
   const [memo, setMemo] = useState("");
   const [saved, setSaved] = useState(false);
+  const [savedRecordId, setSavedRecordId] = useState<string | null>(null);
 
   const descriptorGroups = useMemo(() => {
     if (mode === "beginner") {
@@ -116,9 +132,15 @@ export function SensoryForm({ bean }: SensoryFormProps) {
     setScores((current) => ({ ...current, [key]: value }));
   }
 
+  function updateProfessional(field: keyof ProfessionalCvaRecord, value: string | number) {
+    setSaved(false);
+    setProfessional((current) => ({ ...current, [field]: value }));
+  }
+
   function saveRecord() {
+    const id = `${bean.id}-${Date.now()}`;
     saveSensoryRecord({
-      id: `${bean.id}-${Date.now()}`,
+      id,
       beanId: bean.id,
       beanName: getLocalizedText(bean.name, locale),
       roasteryName: getLocalizedText(roastery?.name, locale) || "CoffeeOS",
@@ -126,9 +148,11 @@ export function SensoryForm({ bean }: SensoryFormProps) {
       descriptors,
       scores,
       memo,
+      professional: mode === "professional" ? professional : undefined,
       createdAt: new Date().toISOString()
     });
     setSaved(true);
+    setSavedRecordId(id);
   }
 
   const scoreKeys = Object.keys(scores) as Array<keyof SensoryScores>;
@@ -145,6 +169,7 @@ export function SensoryForm({ bean }: SensoryFormProps) {
                 setMode(item);
                 setDescriptors([]);
                 setSaved(false);
+                setSavedRecordId(null);
               }}
               className={`focus-ring h-11 rounded-lg text-sm font-semibold transition ${
                 mode === item ? "bg-coffee-dark text-white" : "text-coffee-secondary"
@@ -187,7 +212,7 @@ export function SensoryForm({ bean }: SensoryFormProps) {
               <div className="mb-2 flex items-center justify-between">
                 <span className="text-sm font-semibold text-coffee-primary">{t(key)}</span>
                 <span className="rounded-lg bg-coffee-background px-2 py-1 text-sm font-semibold tabular-nums text-coffee-secondary">
-                  {scores[key].toFixed(1)}
+                  {(scores[key] ?? 0).toFixed(1)}
                 </span>
               </div>
               <input
@@ -195,7 +220,7 @@ export function SensoryForm({ bean }: SensoryFormProps) {
                 min="1"
                 max="10"
                 step="0.5"
-                value={scores[key]}
+                value={scores[key] ?? 0}
                 onChange={(event) => updateScore(key, Number(event.target.value))}
                 className="w-full"
               />
@@ -203,6 +228,39 @@ export function SensoryForm({ bean }: SensoryFormProps) {
           ))}
         </div>
       </SectionCard>
+
+      {mode === "professional" && (
+        <SectionCard title={t("professional")}>
+          <div className="grid gap-3">
+            <Field label={t("sampleInformation")} value={professional.sampleInfo ?? ""} onChange={(value) => updateProfessional("sampleInfo", value)} />
+            <div className="grid grid-cols-2 gap-2">
+              <Field label={t("sampleNumber")} value={professional.sampleNumber ?? ""} onChange={(value) => updateProfessional("sampleNumber", value)} />
+              <Field label={t("cuppingDate")} type="date" value={professional.cuppingDate ?? ""} onChange={(value) => updateProfessional("cuppingDate", value)} />
+            </div>
+            <Field label={t("evaluator")} value={professional.evaluator ?? ""} onChange={(value) => updateProfessional("evaluator", value)} />
+            <Field label={t("dryAroma")} value={professional.dryAroma ?? ""} onChange={(value) => updateProfessional("dryAroma", value)} />
+            <Field label={t("wetAroma")} value={professional.wetAroma ?? ""} onChange={(value) => updateProfessional("wetAroma", value)} />
+            <TextArea label={t("flavorDescription")} value={professional.flavorDescription ?? ""} onChange={(value) => updateProfessional("flavorDescription", value)} />
+            <Field label={t("defects")} value={professional.defects ?? ""} onChange={(value) => updateProfessional("defects", value)} />
+            <TextArea label={t("finalSummary")} value={professional.finalSummary ?? ""} onChange={(value) => updateProfessional("finalSummary", value)} />
+            <label className="block rounded-lg bg-coffee-background p-3">
+              <span className="flex items-center justify-between gap-3">
+                <span className="text-sm font-semibold text-coffee-primary">{t("finalScore")}</span>
+                <span className="text-sm font-semibold tabular-nums text-coffee-secondary">{professional.finalScore}</span>
+              </span>
+              <input
+                type="range"
+                min="70"
+                max="100"
+                step="0.25"
+                value={professional.finalScore ?? 84}
+                onChange={(event) => updateProfessional("finalScore", Number(event.target.value))}
+                className="mt-3 w-full accent-coffee-accent"
+              />
+            </label>
+          </div>
+        </SectionCard>
+      )}
 
       <SectionCard title={t("memo")}>
         <textarea
@@ -227,14 +285,60 @@ export function SensoryForm({ bean }: SensoryFormProps) {
           {saved ? t("savedToArchive") : t("saveSensoryRecord")}
         </button>
         {saved && (
-          <Link
-            href="/archive"
-            className="focus-ring mt-3 inline-flex h-12 w-full items-center justify-center rounded-lg border border-coffee-border bg-coffee-card text-sm font-semibold text-coffee-primary"
-          >
-            {t("viewArchive")}
-          </Link>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <Link
+              href={savedRecordId ? `/sensory/${savedRecordId}` : "/archive"}
+              className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg border border-coffee-border bg-coffee-card text-sm font-semibold text-coffee-primary"
+            >
+              {t("viewRecord")}
+            </Link>
+            <Link
+              href="/archive"
+              className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg border border-coffee-border bg-coffee-card text-sm font-semibold text-coffee-primary"
+            >
+              {t("viewArchive")}
+            </Link>
+          </div>
         )}
       </div>
     </div>
+  );
+}
+
+function Field({
+  label,
+  value,
+  type = "text",
+  onChange
+}: {
+  label: string;
+  value: string;
+  type?: "text" | "date";
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-semibold text-coffee-primary">{label}</span>
+      <input
+        type={type}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="focus-ring h-12 w-full rounded-lg border border-coffee-border bg-coffee-background px-3 text-base text-coffee-primary"
+      />
+    </label>
+  );
+}
+
+function TextArea({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-semibold text-coffee-primary">{label}</span>
+      <textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        rows={3}
+        className="focus-ring w-full resize-none rounded-lg border border-coffee-border bg-coffee-background p-3 text-sm text-coffee-primary"
+      />
+    </label>
   );
 }

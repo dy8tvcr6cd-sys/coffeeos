@@ -134,6 +134,7 @@ export default function AdminPage() {
   const [form, setForm] = useState<BeanForm>(initialForm);
   const [customBeans, setCustomBeans] = useState<Bean[]>([]);
   const [savedId, setSavedId] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -182,6 +183,9 @@ export default function AdminPage() {
     ],
     [form, t]
   );
+  const savedQrUrl = savedId
+    ? `${typeof window !== "undefined" ? window.location.origin : ""}/beans/${savedId}`
+    : "";
 
   function updateTextField(field: keyof BeanForm, lang: keyof LocalizedText, value: string) {
     setForm((current) => ({
@@ -301,7 +305,17 @@ export default function AdminPage() {
     addCustomBean(bean, recipe);
     setCustomBeans(getCustomBeans());
     setSavedId(id);
+    setCopied(false);
     setForm(initialForm);
+  }
+
+  async function copyQrUrl() {
+    if (!savedQrUrl || typeof navigator === "undefined") {
+      return;
+    }
+
+    await navigator.clipboard.writeText(savedQrUrl);
+    setCopied(true);
   }
 
   return (
@@ -313,6 +327,10 @@ export default function AdminPage() {
         backHref="/"
       />
       <div className="space-y-5 px-5">
+        <SectionCard title={t("roasteryOperatingPlatform")} eyebrow={t("customerExperience")}>
+          <p className="text-sm leading-6 text-coffee-secondary">{t("b2b2cLoop")}</p>
+        </SectionCard>
+
         <form onSubmit={submit} className="space-y-5">
           <SectionCard title={t("internalCompletionChecklist")}>
             <div className="grid gap-2">
@@ -425,17 +443,29 @@ export default function AdminPage() {
         </form>
 
         {savedId && (
-          <SectionCard title={t("beanAdded")}>
-            <p className="inline-flex items-center gap-2 text-sm font-semibold text-coffee-primary">
-              <Check size={16} className="text-coffee-accent" />
-              {t("saved")}
-            </p>
-            <Link
-              href={`/beans/${savedId}`}
-              className="focus-ring mt-4 inline-flex h-12 w-full items-center justify-center rounded-lg bg-coffee-dark px-4 text-sm font-semibold text-white"
-            >
-              {t("openNewBean")}
-            </Link>
+          <SectionCard title={t("beanAdded")} eyebrow={t("qrUrl")}>
+            <div className="rounded-lg bg-coffee-background p-3">
+              <p className="inline-flex items-center gap-2 text-sm font-semibold text-coffee-primary">
+                <Check size={16} className="text-coffee-accent" />
+                {t("saved")}
+              </p>
+              <p className="mt-2 break-all text-sm leading-6 text-coffee-secondary">{savedQrUrl}</p>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={copyQrUrl}
+                className="focus-ring inline-flex h-12 items-center justify-center rounded-lg border border-coffee-border bg-coffee-card px-3 text-sm font-semibold text-coffee-primary"
+              >
+                {copied ? t("saved") : t("copyQrUrl")}
+              </button>
+              <Link
+                href={`/beans/${savedId}`}
+                className="focus-ring inline-flex h-12 items-center justify-center rounded-lg bg-coffee-dark px-3 text-sm font-semibold text-white"
+              >
+                {t("previewBeanPage")}
+              </Link>
+            </div>
           </SectionCard>
         )}
 

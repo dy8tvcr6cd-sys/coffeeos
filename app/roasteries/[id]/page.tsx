@@ -8,6 +8,7 @@ import { BeanCard } from "@/components/BeanCard";
 import { PageHeader } from "@/components/PageHeader";
 import { RoasteryLogo } from "@/components/RoasteryLogo";
 import { SectionCard } from "@/components/SectionCard";
+import { beans as staticBeans } from "@/data/beans";
 import { getRoasteryById } from "@/data/roasteries";
 import { customerText } from "@/lib/customerDisplay";
 import { getAllBeansClient } from "@/lib/storage";
@@ -19,7 +20,7 @@ export default function RoasteryDetailPage() {
   const { locale, t } = useLocale();
   const params = useParams<{ id: string }>();
   const roastery = getRoasteryById(params.id);
-  const [allBeans, setAllBeans] = useState<Bean[]>([]);
+  const [allBeans, setAllBeans] = useState<Bean[]>(staticBeans);
 
   useEffect(() => {
     setAllBeans(getAllBeansClient());

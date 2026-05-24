@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Plus, Search } from "lucide-react";
 import { BeanCard } from "@/components/BeanCard";
 import { PageHeader } from "@/components/PageHeader";
+import { beans as staticBeans } from "@/data/beans";
 import { roasteries } from "@/data/roasteries";
 import { getAllBeansClient } from "@/lib/storage";
 import type { Bean } from "@/types/bean";
@@ -13,7 +14,7 @@ import { useLocale } from "@/lib/useLocale";
 
 export default function BeansPage() {
   const { locale, t } = useLocale();
-  const [beans, setBeans] = useState<Bean[]>([]);
+  const [beans, setBeans] = useState<Bean[]>(staticBeans);
   const [query, setQuery] = useState("");
   const [roasteryId, setRoasteryId] = useState("all");
 

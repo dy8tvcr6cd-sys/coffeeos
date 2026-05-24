@@ -21,6 +21,15 @@ export type BrewRecipe = {
   totalTimeSeconds: number;
   intent: LocalizedText;
   steps: BrewStep[];
+  professional?: {
+    grinderReference?: string | null;
+    targetTds?: string | null;
+    targetExtractionYield?: string | null;
+    agitationLevel?: LocalizedText | null;
+    bypass?: string | null;
+    drawdownRange?: string | null;
+    adjustmentGuide?: LocalizedText | null;
+  };
   sourceUrl?: string | null;
   status?: "confirmed" | "needs_review";
 };
