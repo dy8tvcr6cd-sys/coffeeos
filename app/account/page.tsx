@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import { PageHeader } from "@/components/PageHeader";
@@ -12,6 +13,7 @@ import { useLocale } from "@/lib/useLocale";
 import type { UserProfile } from "@/types/user";
 
 export default function AccountPage() {
+  const router = useRouter();
   const { t } = useLocale();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [counts, setCounts] = useState({ sensory: 0, brewLogs: 0, recipes: 0 });
@@ -28,6 +30,7 @@ export default function AccountPage() {
   function signOut() {
     logout();
     setUser(null);
+    router.push("/login");
   }
 
   if (!user) {

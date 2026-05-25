@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
@@ -16,6 +16,12 @@ export default function RoasteryAdminLoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const [returnTo, setReturnTo] = useState("/roastery-admin/dashboard");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setReturnTo(params.get("returnTo") || "/roastery-admin/dashboard");
+  }, []);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -25,7 +31,7 @@ export default function RoasteryAdminLoginPage() {
       return;
     }
     if (canAccessRoasteryAdmin(result.user.role)) {
-      router.push("/roastery-admin/dashboard");
+      router.push(returnTo);
       return;
     }
     if (result.user.role === "pending_roastery") {

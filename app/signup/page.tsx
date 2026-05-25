@@ -27,11 +27,11 @@ export default function SignupPage() {
   const { t } = useLocale();
   const [form, setForm] = useState<SignupForm>(initialForm);
   const [error, setError] = useState("");
-  const [nextPath, setNextPath] = useState("/account");
+  const [returnTo, setReturnTo] = useState("/account");
 
   useEffect(() => {
-    const next = new URLSearchParams(window.location.search).get("next");
-    setNextPath(next || "/account");
+    const params = new URLSearchParams(window.location.search);
+    setReturnTo(params.get("returnTo") || params.get("next") || "/account");
   }, []);
 
   function update(field: keyof SignupForm, value: string) {
@@ -46,7 +46,7 @@ export default function SignupPage() {
       setError(errorMessage(result.error, t));
       return;
     }
-    router.push(nextPath);
+    router.push(returnTo);
   }
 
   return (
@@ -88,13 +88,13 @@ export default function SignupPage() {
             {t("createAccount")}
           </button>
           <Link
-            href={`/login?next=${encodeURIComponent(nextPath)}`}
+            href={`/login?returnTo=${encodeURIComponent(returnTo)}`}
             className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg border border-coffee-border bg-coffee-card px-4 text-sm font-semibold text-coffee-primary"
           >
             {t("alreadyHaveAccount")}
           </Link>
           <Link
-            href={nextPath === "/account" ? "/" : nextPath}
+            href={returnTo === "/account" ? "/beans" : returnTo}
             className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg border border-coffee-border bg-coffee-card px-4 text-sm font-semibold text-coffee-secondary"
           >
             {t("continueLater")}

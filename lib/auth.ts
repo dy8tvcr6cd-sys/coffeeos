@@ -141,6 +141,19 @@ export function login(input: LoginInput): AuthResult {
   const email = normalizeEmail(input.email);
   const user = getUserProfiles().find((item) => item.email === email);
   if (!user) {
+    if (!isSupabaseConfigured()) {
+      // Prototype-only fallback: create a local customer session without storing credentials.
+      const newUser: UserProfile = {
+        id: `user-${Date.now()}`,
+        email,
+        role: "customer",
+        createdAt: new Date().toISOString()
+      };
+      writeJson(USERS_KEY, [newUser, ...getUserProfiles()]);
+      setCurrentUser(newUser.id);
+      return { ok: true, user: newUser };
+    }
+
     return { ok: false, error: "accountNotFound" };
   }
 

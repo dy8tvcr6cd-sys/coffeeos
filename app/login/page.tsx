@@ -13,12 +13,12 @@ export default function LoginPage() {
   const { t } = useLocale();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [nextPath, setNextPath] = useState("/account");
+  const [returnTo, setReturnTo] = useState("/");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const next = new URLSearchParams(window.location.search).get("next");
-    setNextPath(next || "/account");
+    const params = new URLSearchParams(window.location.search);
+    setReturnTo(params.get("returnTo") || params.get("next") || "/");
   }, []);
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -28,16 +28,15 @@ export default function LoginPage() {
       setError(errorMessage(result.error, t));
       return;
     }
-    router.push(nextPath);
+    router.push(returnTo);
   }
 
   return (
     <>
       <PageHeader
-        title={t("login")}
+        title={t("coffeeOSLogin")}
         eyebrow="CoffeeOS"
-        description={t("loginDescription")}
-        backHref="/"
+        description={t("loginRequiredForApp")}
       />
       <form onSubmit={submit} className="space-y-5 px-5">
         {!isSupabaseConfigured() && (
@@ -47,6 +46,9 @@ export default function LoginPage() {
         )}
 
         <SectionCard title={t("login")}>
+          <p className="mb-4 rounded-lg bg-coffee-background p-3 text-sm leading-6 text-coffee-secondary">
+            {t("qrPagesArePublic")}
+          </p>
           <div className="grid gap-3">
             <Field label={t("email")} type="email" value={email} onChange={setEmail} />
             <Field label={t("password")} type="password" value={password} onChange={setPassword} />
@@ -60,13 +62,19 @@ export default function LoginPage() {
             type="submit"
             className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg bg-coffee-dark px-4 text-sm font-semibold text-white"
           >
-            {t("login")}
+            {t("loginWithEmail")}
           </button>
           <Link
-            href={`/signup?next=${encodeURIComponent(nextPath)}`}
+            href={`/signup?returnTo=${encodeURIComponent(returnTo)}`}
             className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg border border-coffee-border bg-coffee-card px-4 text-sm font-semibold text-coffee-primary"
           >
             {t("signup")}
+          </Link>
+          <Link
+            href="/beans"
+            className="focus-ring inline-flex h-12 w-full items-center justify-center rounded-lg border border-coffee-border bg-coffee-card px-4 text-sm font-semibold text-coffee-secondary"
+          >
+            {t("publicQrAccess")}
           </Link>
         </div>
       </form>

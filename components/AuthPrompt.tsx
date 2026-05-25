@@ -13,7 +13,7 @@ type AuthPromptProps = {
 export function AuthPrompt({ returnTo, onLater }: AuthPromptProps) {
   const { t } = useLocale();
   const next = returnTo ?? (typeof window !== "undefined" ? `${window.location.pathname}${window.location.search}` : "/");
-  const query = `?next=${encodeURIComponent(next)}`;
+  const query = `?returnTo=${encodeURIComponent(next)}`;
 
   return (
     <SectionCard title={t("loginRequiredToSave")}>

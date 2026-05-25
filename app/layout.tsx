@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { AuthGate } from "@/components/AuthGate";
 import { BottomNavigation } from "@/components/BottomNavigation";
 
 export const metadata: Metadata = {
@@ -22,7 +23,9 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <div className="mx-auto min-h-screen w-full max-w-[480px] border-x border-coffee-border/70 bg-coffee-background">
-          <main className="min-h-screen pb-28">{children}</main>
+          <AuthGate>
+            <main className="min-h-screen pb-28">{children}</main>
+          </AuthGate>
           <BottomNavigation />
         </div>
       </body>

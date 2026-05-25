@@ -442,10 +442,52 @@ export const translations = {
     ja: "飲んだコーヒーの記録や抽出レシピを保存するにはアカウントが必要です。豆情報と抽出レシピはログインなしでも見られます。"
   },
   login: { ko: "로그인", en: "Log in", ja: "ログイン" },
+  coffeeOSLogin: { ko: "CoffeeOS 로그인", en: "CoffeeOS login", ja: "CoffeeOSログイン" },
+  loginWithEmail: { ko: "이메일로 로그인", en: "Log in with email", ja: "メールでログイン" },
   loginDescription: {
     ko: "저장한 기록, 추출 처방, 나의 레시피를 이어서 사용합니다.",
     en: "Continue with your saved records, brew diagnosis, and personal recipes.",
     ja: "保存した記録、抽出診断、マイレシピを続けて使います。"
+  },
+  loginRequiredForApp: {
+    ko: "나의 커피 기록, 추출 처방, 레시피를 저장하려면 로그인이 필요합니다. 원두 정보와 브루잉 레시피는 QR 링크에서 로그인 없이 볼 수 있습니다.",
+    en: "Log in to save your coffee records, brew diagnosis, and recipes. Bean information and brewing recipes remain available from QR links without login.",
+    ja: "自分のコーヒー記録、抽出診断、レシピを保存するにはログインが必要です。豆情報と抽出レシピはQRリンクからログインなしで見られます。"
+  },
+  qrPagesArePublic: {
+    ko: "QR 원두 페이지와 브루잉 타이머는 로그인 없이 볼 수 있습니다.",
+    en: "QR bean pages and brewing timers can be viewed without login.",
+    ja: "QR豆ページと抽出タイマーはログインなしで見られます。"
+  },
+  redirectingAfterLogin: {
+    ko: "로그인 상태를 확인하는 중입니다.",
+    en: "Checking your login status.",
+    ja: "ログイン状態を確認しています。"
+  },
+  alreadyLoggedIn: {
+    ko: "이미 로그인되어 있습니다.",
+    en: "You are already logged in.",
+    ja: "すでにログインしています。"
+  },
+  logoutAndReturnToLogin: {
+    ko: "로그아웃하고 로그인 화면으로 이동합니다.",
+    en: "Log out and return to login.",
+    ja: "ログアウトしてログイン画面に戻ります。"
+  },
+  sessionExpired: {
+    ko: "세션이 만료되었습니다. 다시 로그인해주세요.",
+    en: "Your session expired. Please log in again.",
+    ja: "セッションが期限切れです。もう一度ログインしてください。"
+  },
+  loginToContinue: {
+    ko: "계속하려면 로그인해주세요.",
+    en: "Log in to continue.",
+    ja: "続けるにはログインしてください。"
+  },
+  publicQrAccess: {
+    ko: "QR 원두 페이지는 로그인 없이 볼 수 있습니다",
+    en: "QR bean pages are available without login",
+    ja: "QR豆ページはログインなしで見られます"
   },
   account: { ko: "계정", en: "Account", ja: "アカウント" },
   accountDescription: {
