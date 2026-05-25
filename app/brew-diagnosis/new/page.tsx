@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Save } from "lucide-react";
+import { AuthPrompt } from "@/components/AuthPrompt";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionCard } from "@/components/SectionCard";
 import { beans as mockBeans } from "@/data/beans";
@@ -10,6 +11,7 @@ import { getRoasteryById } from "@/data/roasteries";
 import { analyzeBrewLog } from "@/lib/brewDiagnosis";
 import { formatBrewLogStepDisplay } from "@/lib/brewSteps";
 import { brewProblemLabels, calculateRatio, makeDefaultSteps } from "@/lib/brewUi";
+import { getCurrentUser } from "@/lib/auth";
 import { getLocalizedText, type LocalizedText } from "@/lib/i18n";
 import { clearBrewLogDraft, getAllBeansClient, getBrewLogDraft, saveBrewLog } from "@/lib/storage";
 import { useLocale } from "@/lib/useLocale";
@@ -115,6 +117,7 @@ export default function NewBrewLogPage() {
   const [form, setForm] = useState<BrewLogForm>(initialForm);
   const [draftLoaded, setDraftLoaded] = useState(false);
   const [error, setError] = useState("");
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   useEffect(() => {
     const beans = getAllBeansClient();
@@ -218,6 +221,11 @@ export default function NewBrewLogPage() {
 
     if (!form.selectedProblems.length) {
       setError("맛 결과를 최소 하나 선택해주세요.");
+      return;
+    }
+
+    if (!getCurrentUser()) {
+      setShowAuthPrompt(true);
       return;
     }
 
@@ -436,6 +444,13 @@ export default function NewBrewLogPage() {
             <Field label={`${t("beverageWeight")} g`} type="number" value={form.beverageWeight} onChange={(value) => update("beverageWeight", value)} />
           </div>
         </SectionCard>
+
+        {showAuthPrompt && (
+          <AuthPrompt
+            returnTo="/brew-diagnosis/new"
+            onLater={() => setShowAuthPrompt(false)}
+          />
+        )}
 
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">{error}</p>}
 

@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowRight, Check, RotateCcw, Save } from "lucide-react";
+import { AuthPrompt } from "@/components/AuthPrompt";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionCard } from "@/components/SectionCard";
 import { analyzeBrewLog } from "@/lib/brewDiagnosis";
 import { formatBrewLogStepDisplay, formatStepWaterDisplay } from "@/lib/brewSteps";
+import { getCurrentUser } from "@/lib/auth";
 import {
   brewProblemLabels,
   confidenceLabels,
@@ -26,6 +28,7 @@ export default function BrewDiagnosisDetailPage() {
   const { locale, t } = useLocale();
   const [log, setLog] = useState<BrewLog | undefined>();
   const [savedRecipeId, setSavedRecipeId] = useState<string | null>(null);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   useEffect(() => {
     setLog(getBrewLogById(recordId));
@@ -51,6 +54,11 @@ export default function BrewDiagnosisDetailPage() {
 
   function saveAsRecipe() {
     if (!log) {
+      return;
+    }
+
+    if (!getCurrentUser()) {
+      setShowAuthPrompt(true);
       return;
     }
 
@@ -201,6 +209,13 @@ export default function BrewDiagnosisDetailPage() {
               <InfoTile label={t("ratio")} value={String(diagnosis.nextTestRecipe.ratio ?? log.recipe.ratio)} />
             </div>
           </SectionCard>
+        )}
+
+        {showAuthPrompt && (
+          <AuthPrompt
+            returnTo={`/brew-diagnosis/${recordId}`}
+            onLater={() => setShowAuthPrompt(false)}
+          />
         )}
 
         <div className="grid gap-2">

@@ -5,9 +5,11 @@ import Link from "next/link";
 import { Check, Save } from "lucide-react";
 import type { Bean } from "@/types/bean";
 import type { ProfessionalCvaRecord, SensoryMode, SensoryScores } from "@/types/sensory";
+import { AuthPrompt } from "@/components/AuthPrompt";
 import { getRoasteryById } from "@/data/roasteries";
 import { FlavorChip } from "@/components/FlavorChip";
 import { SectionCard } from "@/components/SectionCard";
+import { getCurrentUser } from "@/lib/auth";
 import { saveSensoryRecord } from "@/lib/storage";
 import { getLocalizedText, type LocalizedText } from "@/lib/i18n";
 import { useLocale } from "@/lib/useLocale";
@@ -112,6 +114,7 @@ export function SensoryForm({ bean }: SensoryFormProps) {
   const [memo, setMemo] = useState("");
   const [saved, setSaved] = useState(false);
   const [savedRecordId, setSavedRecordId] = useState<string | null>(null);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   const descriptorGroups = useMemo(() => {
     if (mode === "beginner") {
@@ -138,6 +141,11 @@ export function SensoryForm({ bean }: SensoryFormProps) {
   }
 
   function saveRecord() {
+    if (!getCurrentUser()) {
+      setShowAuthPrompt(true);
+      return;
+    }
+
     const id = `${bean.id}-${Date.now()}`;
     saveSensoryRecord({
       id,
@@ -274,6 +282,13 @@ export function SensoryForm({ bean }: SensoryFormProps) {
           className="focus-ring w-full resize-none rounded-lg border border-coffee-border bg-coffee-background p-4 text-base text-coffee-primary placeholder:text-coffee-secondary/70"
         />
       </SectionCard>
+
+      {showAuthPrompt && (
+        <AuthPrompt
+          returnTo={`/beans/${bean.id}/sensory`}
+          onLater={() => setShowAuthPrompt(false)}
+        />
+      )}
 
       <div className="sticky bottom-24 z-10 px-1">
         <button

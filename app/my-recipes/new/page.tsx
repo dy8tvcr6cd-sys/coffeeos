@@ -3,10 +3,12 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Save } from "lucide-react";
+import { AuthPrompt } from "@/components/AuthPrompt";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionCard } from "@/components/SectionCard";
 import { formatBrewLogStepDisplay, parseGramAmount } from "@/lib/brewSteps";
 import { calculateRatio } from "@/lib/brewUi";
+import { getCurrentUser } from "@/lib/auth";
 import { getLocalizedText, type LocalizedText } from "@/lib/i18n";
 import { saveRecipe } from "@/lib/storage";
 import { useLocale } from "@/lib/useLocale";
@@ -105,6 +107,7 @@ export default function NewSavedRecipePage() {
   const { locale, t } = useLocale();
   const [form, setForm] = useState<RecipeForm>(initialForm);
   const [error, setError] = useState("");
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   const ratio = calculateRatio(numberFrom(form.coffeeAmount), numberFrom(form.waterAmount));
   const previewSteps = buildBrewLogSteps(form.steps, form.recipeWaterMode);
@@ -163,6 +166,11 @@ export default function NewSavedRecipePage() {
 
     if (!coffeeAmount || !waterAmount || !waterTemperature || !totalTimeSeconds || !form.grindSize.trim()) {
       setError("원두량, 물 양, 물 온도, 분쇄도, 총 추출 시간은 필수입니다.");
+      return;
+    }
+
+    if (!getCurrentUser()) {
+      setShowAuthPrompt(true);
       return;
     }
 
@@ -323,6 +331,13 @@ export default function NewSavedRecipePage() {
             <LocalizedTextArea label={t("notes")} value={form.notes} onChange={(lang, value) => updateText("notes", lang, value)} />
           </div>
         </SectionCard>
+
+        {showAuthPrompt && (
+          <AuthPrompt
+            returnTo="/my-recipes/new"
+            onLater={() => setShowAuthPrompt(false)}
+          />
+        )}
 
         {error && <p className="rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">{error}</p>}
 

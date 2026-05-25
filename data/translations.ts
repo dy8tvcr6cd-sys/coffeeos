@@ -434,6 +434,100 @@ export const translations = {
   beanAdded: { ko: "원두가 추가되었습니다", en: "Bean added", ja: "豆を追加しました" },
   openNewBean: { ko: "새 원두 열기", en: "Open new bean", ja: "新しい豆を開く" },
   localBeans: { ko: "로컬 원두", en: "Local beans", ja: "ローカル豆" },
+  signup: { ko: "회원가입", en: "Sign up", ja: "新規登録" },
+  startCoffeeOS: { ko: "CoffeeOS 시작하기", en: "Start CoffeeOS", ja: "CoffeeOSを始める" },
+  signupDescription: {
+    ko: "내가 마신 커피 기록과 추출 레시피를 저장하려면 계정이 필요합니다. 원두 정보와 브루잉 레시피는 로그인 없이도 볼 수 있습니다.",
+    en: "Create an account to save coffee records and brew recipes. Bean pages and brewing recipes remain available without login.",
+    ja: "飲んだコーヒーの記録や抽出レシピを保存するにはアカウントが必要です。豆情報と抽出レシピはログインなしでも見られます。"
+  },
+  login: { ko: "로그인", en: "Log in", ja: "ログイン" },
+  loginDescription: {
+    ko: "저장한 기록, 추출 처방, 나의 레시피를 이어서 사용합니다.",
+    en: "Continue with your saved records, brew diagnosis, and personal recipes.",
+    ja: "保存した記録、抽出診断、マイレシピを続けて使います。"
+  },
+  account: { ko: "계정", en: "Account", ja: "アカウント" },
+  accountDescription: {
+    ko: "CoffeeOS에 저장한 기록과 계정 상태를 확인합니다.",
+    en: "Review your CoffeeOS records and account status.",
+    ja: "CoffeeOSに保存した記録とアカウント状態を確認します。"
+  },
+  email: { ko: "이메일", en: "Email", ja: "メールアドレス" },
+  password: { ko: "비밀번호", en: "Password", ja: "パスワード" },
+  confirmPassword: { ko: "비밀번호 확인", en: "Confirm password", ja: "パスワード確認" },
+  displayName: { ko: "이름 또는 닉네임", en: "Name or nickname", ja: "名前またはニックネーム" },
+  createAccount: { ko: "가입하기", en: "Create account", ja: "登録する" },
+  alreadyHaveAccount: { ko: "이미 계정이 있어요", en: "I already have an account", ja: "すでにアカウントがあります" },
+  continueLater: { ko: "나중에 하기", en: "Do this later", ja: "あとで" },
+  loginRequiredToSave: { ko: "기록을 저장하려면 로그인이 필요합니다.", en: "Log in to save records.", ja: "記録を保存するにはログインが必要です。" },
+  loginRequiredToSaveDescription: {
+    ko: "원두 정보와 브루잉 레시피는 로그인 없이 볼 수 있습니다.",
+    en: "Bean information and brewing recipes are available without login.",
+    ja: "豆情報と抽出レシピはログインなしでも見られます。"
+  },
+  roasteryAdminSignup: { ko: "로스터리 관리자 신청", en: "Request roastery admin access", ja: "ロースタリー管理者申請" },
+  roasteryAdminSignupDescription: {
+    ko: "원두 정보 등록, QR 페이지 생성, 브루잉 가이드 관리를 위해 로스터리 계정이 필요합니다.",
+    en: "Roastery accounts are used to register bean information, generate QR pages, and manage brewing guides.",
+    ja: "豆情報登録、QRページ生成、抽出ガイド管理にはロースタリーアカウントが必要です。"
+  },
+  roasteryName: { ko: "로스터리명", en: "Roastery name", ja: "ロースタリー名" },
+  managerName: { ko: "담당자명", en: "Manager name", ja: "担当者名" },
+  contact: { ko: "연락처", en: "Contact", ja: "連絡先" },
+  instagram: { ko: "인스타그램", en: "Instagram", ja: "Instagram" },
+  roleInRoastery: { ko: "담당 역할", en: "Role at roastery", ja: "担当役割" },
+  owner: { ko: "대표", en: "Owner", ja: "代表" },
+  staff: { ko: "직원", en: "Staff", ja: "スタッフ" },
+  beanManager: { ko: "원두 등록 담당자", en: "Bean registration manager", ja: "豆登録担当者" },
+  roasterySignupSubmitted: {
+    ko: "로스터리 관리자 신청이 접수되었습니다.",
+    en: "Roastery admin request submitted.",
+    ja: "ロースタリー管理者申請を受け付けました。"
+  },
+  pendingApproval: { ko: "관리자 승인 대기 중입니다.", en: "Admin approval pending.", ja: "管理者承認待ちです。" },
+  adminApprovalPending: {
+    ko: "승인 후 원두 등록과 QR 관리 기능을 사용할 수 있습니다.",
+    en: "After approval, bean registration and QR management will become available.",
+    ja: "承認後、豆登録とQR管理機能を利用できます。"
+  },
+  goToRoasteryAdmin: { ko: "로스터리 관리자 페이지로 이동", en: "Go to roastery admin", ja: "ロースタリー管理ページへ" },
+  passwordsDoNotMatch: { ko: "비밀번호가 서로 다릅니다.", en: "Passwords do not match.", ja: "パスワードが一致しません。" },
+  passwordTooShort: { ko: "비밀번호는 8자 이상이어야 합니다.", en: "Password must be at least 8 characters.", ja: "パスワードは8文字以上にしてください。" },
+  emailRequired: { ko: "이메일을 입력해주세요.", en: "Please enter your email.", ja: "メールアドレスを入力してください。" },
+  passwordRequired: { ko: "비밀번호를 입력해주세요.", en: "Please enter your password.", ja: "パスワードを入力してください。" },
+  signupFailed: {
+    ko: "가입 중 문제가 발생했습니다. 다시 시도해주세요.",
+    en: "Something went wrong while signing up. Please try again.",
+    ja: "登録中に問題が発生しました。もう一度お試しください。"
+  },
+  accountNotFound: {
+    ko: "가입된 계정을 찾을 수 없습니다.",
+    en: "No account was found for this email.",
+    ja: "このメールアドレスのアカウントが見つかりません。"
+  },
+  roasteryNameRequired: { ko: "로스터리명을 입력해주세요.", en: "Please enter the roastery name.", ja: "ロースタリー名を入力してください。" },
+  managerNameRequired: { ko: "담당자명을 입력해주세요.", en: "Please enter the manager name.", ja: "担当者名を入力してください。" },
+  role: { ko: "역할", en: "Role", ja: "役割" },
+  logout: { ko: "로그아웃", en: "Log out", ja: "ログアウト" },
+  roleCustomer: { ko: "고객", en: "Customer", ja: "顧客" },
+  rolePro: { ko: "프로", en: "Pro", ja: "Pro" },
+  rolePendingRoastery: { ko: "로스터리 승인 대기", en: "Pending roastery", ja: "ロースタリー承認待ち" },
+  roleRoasteryOwner: { ko: "로스터리 대표", en: "Roastery owner", ja: "ロースタリー代表" },
+  roleRoasteryStaff: { ko: "로스터리 직원", en: "Roastery staff", ja: "ロースタリースタッフ" },
+  roleAdmin: { ko: "관리자", en: "Admin", ja: "管理者" },
+  roasteryAdminOnly: { ko: "승인된 로스터리 계정이 필요합니다.", en: "Approved roastery account required.", ja: "承認済みロースタリーアカウントが必要です。" },
+  roasteryAdminOnlyDescription: {
+    ko: "로스터리 관리 기능은 승인된 로스터리 대표, 직원, 관리자만 사용할 수 있습니다.",
+    en: "Roastery management is available only to approved roastery owners, staff, and admins.",
+    ja: "ロースタリー管理機能は承認済みの代表、スタッフ、管理者のみ利用できます。"
+  },
+  localPrototypeAuth: { ko: "로컬 프로토타입 인증", en: "Local prototype auth", ja: "ローカルプロトタイプ認証" },
+  localPrototypeAuthDescription: {
+    ko: "Supabase 환경변수가 아직 설정되지 않아 이 프로토타입은 이메일과 역할만 로컬에 저장합니다. 비밀번호는 저장하지 않습니다.",
+    en: "Supabase environment variables are not configured, so this prototype stores only email and role locally. Passwords are not stored.",
+    ja: "Supabase環境変数が未設定のため、このプロトタイプはメールと役割のみをローカル保存します。パスワードは保存しません。"
+  },
   infoMissing: { ko: "정보 없음", en: "Not available", ja: "情報なし" },
   needsReview: { ko: "확인 필요", en: "Needs review", ja: "確認が必要" }
 } satisfies Record<string, LocalizedText>;
