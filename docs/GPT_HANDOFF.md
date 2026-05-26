@@ -136,3 +136,22 @@ https://github.com/dy8tvcr6cd-sys/coffeeos/blob/master/docs/GPT_HANDOFF.md
 ## 안정적인 공개 링크에 대한 메모
 
 `trycloudflare.com` 링크는 임시 터널이라 오래 유지되지 않을 수 있습니다. 다른 사람에게 안정적으로 보내려면 GitHub 저장소를 Vercel에 연결해 정식 배포 URL을 만들어야 합니다.
+
+앱의 QR URL 생성은 `NEXT_PUBLIC_SITE_URL`이 설정되어 있으면 해당 배포 주소를 사용합니다. 로컬 개발 주소(`localhost`, `127.0.0.1`)는 다른 사람의 기기에서 열리지 않습니다.
+
+카톡 공유용 진입 페이지는 `/kakao`입니다. 배포 후 `https://배포주소/kakao`를 보내면 카톡 미리보기 이미지와 함께 열리고, 사용자는 원두 상세와 브루잉 타이머로 바로 이동할 수 있습니다.
+
+관리자 화면에서 새로 추가한 원두는 현재 브라우저의 로컬 저장소에만 저장되는 프로토타입 데이터입니다. 다른 사람이 열 수 있는 QR 원두 페이지로 쓰려면 원두 데이터를 배포 데이터나 백엔드에 저장해야 합니다.
+
+## 실제 화면 확인 방법
+
+안정적인 리뷰 진입 페이지는 `/gpt`입니다.
+
+- Vercel 리뷰 페이지: `https://coffee-site-bice.vercel.app/gpt`
+- 스크린샷 폴더: `public/review-screenshots/`
+- 리뷰 manifest: `public/review-manifest.json`
+- 스크린샷 전달 가이드: `docs/SCREENSHOT_GUIDE.md`
+
+`trycloudflare.com` 링크는 만료되거나 외부 GPT 환경에서 실패할 수 있습니다. Vercel 배포 링크가 더 안정적입니다.
+
+라이브 페이지를 열 수 없다면 `/gpt` 페이지의 내용과 함께 `docs/GPT_HANDOFF.md`, `public/review-manifest.json`, `public/review-screenshots/`를 기준으로 CoffeeOS의 제품 흐름과 UX를 검토하면 됩니다.

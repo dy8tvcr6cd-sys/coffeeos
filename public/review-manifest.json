@@ -1,0 +1,56 @@
+{
+  "productName": "CoffeeOS",
+  "description": "CoffeeOS는 로스터리 원두 등록, QR 진입, 원두 이해, 브루잉, 기록, 추출 처방, 나의 레시피, 재구매 흐름을 연결하는 커피 경험 운영 플랫폼입니다.",
+  "latestDeploymentUrl": "https://coffee-site-bice.vercel.app",
+  "reviewPage": "/gpt",
+  "lastUpdated": "2026-05-26",
+  "currentBranch": "master",
+  "buildStatusNote": "npm run typecheck와 npm run build 기준으로 검증합니다.",
+  "coreLoop": [
+    "로스터리 원두 등록",
+    "QR 진입",
+    "원두 이해",
+    "브루잉 타이머 실행",
+    "센서리 또는 추출 기록 저장",
+    "추출 처방 또는 나의 레시피 저장",
+    "재방문",
+    "재구매"
+  ],
+  "publicRoutes": [
+    "/beans",
+    "/beans/[id]",
+    "/beans/[id]/brew",
+    "/roasteries",
+    "/roasteries/[id]",
+    "/login",
+    "/signup"
+  ],
+  "protectedRoutes": [
+    "/",
+    "/archive",
+    "/my-recipes",
+    "/brew-diagnosis",
+    "/account",
+    "/sensory/[recordId]"
+  ],
+  "adminRoutes": [
+    "/roastery-admin/login",
+    "/roastery-admin/signup",
+    "/roastery-admin/dashboard",
+    "/roastery-admin/beans",
+    "/roastery-admin/qr",
+    "/roastery-admin/preview"
+  ],
+  "reviewFocus": [
+    "로스터리 등록 → QR 진입 → 원두 이해 → 브루잉 → 기록 → 처방 → 레시피 저장 → 재구매 흐름이 자연스러운가",
+    "고객 화면과 로스터리 관리자 화면이 분리되어 있는가",
+    "로스터리 페이지가 원두 목록이 아니라 브랜드 소개 중심인가",
+    "브루잉 타이머와 레시피 등록 UX가 실제 사용에 편한가",
+    "불필요한 장식 기능이 없는가"
+  ],
+  "safeReviewNotes": [
+    "이 manifest는 공개 가능한 프로토타입 정보만 포함합니다.",
+    "개인 기록, 실제 사용자 이메일, 환경 변수, OAuth 비밀값, Supabase 키, 비공개 파트너 데이터는 포함하지 않습니다.",
+    "라이브 페이지가 열리지 않으면 docs/GPT_HANDOFF.md와 public/review-screenshots/를 함께 검토합니다."
+  ]
+}
