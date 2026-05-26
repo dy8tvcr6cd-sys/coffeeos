@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { useLocale } from "@/lib/useLocale";
 
@@ -12,19 +12,21 @@ type AuthGateProps = {
 
 export function AuthGate({ children }: AuthGateProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const { t } = useLocale();
-  const [allowed, setAllowed] = useState(false);
+  const [allowed, setAllowed] = useState(() => isPublicRoute(pathname || "/"));
 
   useEffect(() => {
     const path = pathname || "/";
     const search = window.location.search;
     const returnTo = `${path}${search}`;
     const user = getCurrentUser();
+    const redirectTo = (target: string) => {
+      setAllowed(false);
+      window.location.replace(target);
+    };
 
     if (path === "/login" && user) {
-      setAllowed(false);
-      router.replace("/");
+      redirectTo("/");
       return;
     }
 
@@ -34,19 +36,17 @@ export function AuthGate({ children }: AuthGateProps) {
     }
 
     if (path.startsWith("/roastery-admin") && !user) {
-      setAllowed(false);
-      router.replace(`/roastery-admin/login?returnTo=${encodeURIComponent(returnTo)}`);
+      redirectTo(`/roastery-admin/login?returnTo=${encodeURIComponent(returnTo)}`);
       return;
     }
 
     if (!user) {
-      setAllowed(false);
-      router.replace(`/login?returnTo=${encodeURIComponent(returnTo)}`);
+      redirectTo(`/login?returnTo=${encodeURIComponent(returnTo)}`);
       return;
     }
 
     setAllowed(true);
-  }, [pathname, router]);
+  }, [pathname]);
 
   if (!allowed) {
     return (
@@ -63,7 +63,7 @@ export function AuthGate({ children }: AuthGateProps) {
 }
 
 function isPublicRoute(pathname: string) {
-  if (pathname === "/login" || pathname === "/signup") {
+  if (pathname === "/login" || pathname === "/signup" || pathname === "/kakao" || pathname === "/gpt") {
     return true;
   }
 
